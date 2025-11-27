@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة الشائعة - متجر مخزون الإمارات</title>
+    <meta name="description" content="إجابات على جميع أسئلتك حول التسوق من متجر مخزون الإمارات - الشحن، الدفع، الإرجاع، وأكثر.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c5f2d;
+            --primary-light: #4a8f4c;
+            --accent: #ff6b35;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.8;
+        }
+
+        .top-bar {
+            background: var(--dark);
+            color: white;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 32px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 28px;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.05);
+        }
+
+        nav {
+            background: var(--primary);
+            padding: 15px 0;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--light);
+        }
+
+        .faq-icon {
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: #666;
+        }
+
+        .faq-answer.active {
+            padding: 0 25px 25px 25px;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category h2 {
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .header-main {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div>📞 للطلب عبر الواتساب: +20 111 076 0081</div>
+            <div>
+                <a href="index.html">العودة للرئيسية</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo">
+                <span class="logo-text">🏪</span>
+                <div>
+                    <h1>متجر مخزون الإمارات</h1>
+                    <p style="font-size: 14px; color: #666;">جودة عالية بأسعار تنافسية</p>
+                </div>
+            </a>
+            <a href="https://wa.me/201110760081" class="whatsapp-btn" target="_blank">📱 واتساب</a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <a href="index.html">الرئيسية</a>
+            <a href="index.html#products">المنتجات</a>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+            <a href="faq.html">الأسئلة الشائعة</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>❓ الأسئلة الشائعة</h1>
+        <p>كل ما تريد معرفته عن التسوق من متجرنا</p>
+    </div>
+
+    <div class="content">
+        <div class="category">
+            <h2>🛍️ الطلبات والشراء</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>كيف أقوم بالطلب؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    يمكنك الطلب بطريقتين: 1) تصفح المنتجات على الموقع واضغط زر "اطلب الآن" للتواصل عبر الواتساب، 2) تواصل معنا مباشرة على الواتساب وأخبرنا بما تريد. سنرد خلال دقائق!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل يمكنني الطلب بكميات كبيرة؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نعم بالتأكيد! نوفر خصومات خاصة للطلبات بالجملة. تواصل معنا عبر الواتساب وسنقدم لك عرض سعر مخصص.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>كم من الوقت يستغرق تأكيد الطلب؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نرد على طلبات الواتساب خلال دقائق! الطلبات المستلمة خلال ساعات العمل تُعالج فوراً. الطلبات خارج أوقات العمل تُعالج في صباح اليوم التالي.
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>💳 الدفع</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>ما هي طرق الدفع المتاحة؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نقبل الدفع عند الاستلام (نقداً أو ببطاقة الائتمان/الخصم). هذا يوفر لك راحة البال والأمان الكامل.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل الأسعار شاملة ضريبة القيمة المضافة؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نعم، جميع الأسعار المعروضة نهائية وشاملة لضريبة القيمة المضافة. لا توجد رسوم خفية إطلاقاً!
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🚚 الشحن والتوصيل</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل الشحن مجاني؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نعم! الشحن مجاني بالكامل لجميع محافظات الإمارات بدون حد أدنى للطلب. نوصل من دبي إلى الفجيرة مجاناً!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>كم يستغرق التوصيل؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    التوصيل يستغرق 2-5 أيام عمل حسب موقعك: دبي والشارقة (2-3 أيام)، أبوظبي والعين (3-4 أيام)، الإمارات الشمالية (3-5 أيام).
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>كيف أتتبع طلبي؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    سنرسل لك رقم تتبع الشحنة عبر الواتساب فور شحن طلبك. يمكنك أيضاً التواصل معنا في أي وقت لمعرفة حالة طلبك.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>ماذا لو لم أكن متواجداً عند التسليم؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    المندوب سيتصل بك قبل الوصول بـ 30-60 دقيقة. يمكنك تحديد موعد آخر مناسب للتسليم بالتنسيق معه.
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>🔄 الإرجاع والاستبدال</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل يمكنني إرجاع المنتج؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نعم، يمكنك إرجاع أي منتج خلال 14 يوماً من الاستلام بشرط أن يكون بحالته الأصلية. (باستثناء منتجات التجميل والعناية الشخصية لأسباب صحية).
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>من يتحمل تكاليف إعادة الشحن؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    إذا كان المنتج معيباً أو تم إرسال منتج خاطئ، نتحمل نحن التكلفة بالكامل. إذا كان الإرجاع لسبب شخصي، يتحمل العميل تكلفة الشحن (20-30 درهم تقريباً).
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>متى أستلم المبلغ المسترد؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    يتم استرداد المبلغ خلال 7-10 أيام عمل من الموافقة على الإرجاع. المنتجات المعيبة يتم استرداد مبلغها فوراً بعد الفحص.
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>📦 المنتجات</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل المنتجات أصلية؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نعم، جميع منتجاتنا أصلية 100% ومكفولة. نتعامل مع موردين معتمدين ونضمن لك الجودة العالية.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>ماذا لو نفد المنتج من المخزون؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    سنخبرك فوراً إذا لم يكن المنتج متوفراً ونقترح عليك بدائل مشابهة. يمكنك أيضاً طلب إشعار عند توفر المنتج.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>هل توجد ضمانات على المنتجات؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نعم، جميع المنتجات مكفولة ضد عيوب التصنيع. مدة الضمان تختلف حسب نوع المنتج والمصنع. تفاصيل الضمان متوفرة مع كل منتج.
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>💬 التواصل</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>كيف يمكنني التواصل معكم؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    أفضل طريقة هي الواتساب على +20 111 076 0081. يمكنك أيضاً مراسلتنا على info@matjar-makhzoon.ae
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>ما هي ساعات عمل خدمة العملاء؟</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    نحن متاحون من السبت إلى الخميس، من 9 صباحاً حتى 6 مساءً. الرسائل خارج أوقات العمل يتم الرد عليها في صباح اليوم التالي.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>عن المتجر</h3>
+                <p>متجر مخزون الإمارات هو وجهتك الأولى للحصول على منتجات عالية الجودة بأسعار تنافسية.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="index.html#products">المنتجات</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>خدمة العملاء</h3>
+                <ul>
+                    <li><a href="shipping.html">سياسة الشحن</a></li>
+                    <li><a href="returns.html">سياسة الإرجاع</a></li>
+                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>تواصل معنا</h3>
+                <p>📱 واتساب: <a href="https://wa.me/201110760081">+20 111 076 0081</a></p>
+                <p>📧 البريد الإلكتروني: info@matjar-makhzoon.ae</p>
+                <p>📍 الإمارات العربية المتحدة</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 متجر مخزون الإمارات. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            const isActive = faqItem.classList.contains('active');
+            
+            // إغلاق جميع الأسئلة
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-answer').classList.remove('active');
+            });
+            
+            // فتح السؤال المحدد إذا لم يكن مفتوحاً
+            if (!isActive) {
+                faqItem.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

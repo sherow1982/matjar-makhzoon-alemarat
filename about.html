@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من نحن - متجر مخزون الإمارات</title>
+    <meta name="description" content="تعرف على متجر مخزون الإمارات - وجهتك الأولى للتسوق الإلكتروني في الإمارات. جودة عالية وأسعار تنافسية وخدمة متميزة.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c5f2d;
+            --primary-light: #4a8f4c;
+            --accent: #ff6b35;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.8;
+        }
+
+        .top-bar {
+            background: var(--dark);
+            color: white;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 32px;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 28px;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.05);
+        }
+
+        nav {
+            background: var(--primary);
+            padding: 15px 0;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .stats {
+            background: var(--primary);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 40px auto 0;
+        }
+
+        .stat-item h2 {
+            font-size: 48px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            font-size: 18px;
+        }
+
+        .story {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .story h2 {
+            color: var(--primary);
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .story p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .header-main {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div>📞 للطلب عبر الواتساب: +20 111 076 0081</div>
+            <div>
+                <a href="index.html">العودة للرئيسية</a>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo">
+                <span class="logo-text">🏪</span>
+                <div>
+                    <h1>متجر مخزون الإمارات</h1>
+                    <p style="font-size: 14px; color: #666;">جودة عالية بأسعار تنافسية</p>
+                </div>
+            </a>
+            <a href="https://wa.me/201110760081" class="whatsapp-btn" target="_blank">📱 واتساب</a>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <a href="index.html">الرئيسية</a>
+            <a href="index.html#products">المنتجات</a>
+            <a href="about.html">من نحن</a>
+            <a href="contact.html">اتصل بنا</a>
+            <a href="faq.html">الأسئلة الشائعة</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>🏪 من نحن</h1>
+        <p>وجهتك الأولى للتسوق الإلكتروني في الإمارات</p>
+    </div>
+
+    <div class="content">
+        <div class="story">
+            <h2>قصتنا</h2>
+            <p>متجر مخزون الإمارات هو متجر إلكتروني متخصص في توفير منتجات عالية الجودة بأسعار تنافسية لجميع عملائنا في دولة الإمارات العربية المتحدة.</p>
+            
+            <p>بدأت رحلتنا من إيمان راسخ بأن التسوق الإلكتروني يجب أن يكون تجربة سهلة وممتعة وموثوقة. نسعى دائماً لتوفير تشكيلة واسعة من المنتجات التي تلبي احتياجات عملائنا اليومية.</p>
+            
+            <p>نحن نؤمن بأهمية الجودة والسعر المناسب، لذلك نختار منتجاتنا بعناية فائقة من موردين موثوقين، ونقدمها لك بأفضل الأسعار الممكنة.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>جودة مضمونة</h3>
+                <p>نختار منتجاتنا بعناية من موردين موثوقين لنضمن لك أفضل جودة</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>أسعار تنافسية</h3>
+                <p>نقدم أفضل الأسعار في السوق مع عروض وخصومات مستمرة</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>شحن مجاني</h3>
+                <p>توصيل مجاني لجميع محافظات الإمارات خلال 2-5 أيام عمل</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>دفع آمن</h3>
+                <p>الدفع عند الاستلام لراحتك وأمانك</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>إرجاع سهل</h3>
+                <p>سياسة إرجاع مرنة خلال 14 يوماً من الاستلام</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>دعم متواصل</h3>
+                <p>فريق خدمة العملاء متاح عبر الواتساب للرد على استفساراتك</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <h2>إنجازاتنا بالأرقام</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h2>+800</h2>
+                <p>منتج متنوع</p>
+            </div>
+            <div class="stat-item">
+                <h2>+5000</h2>
+                <p>عميل راضٍ</p>
+            </div>
+            <div class="stat-item">
+                <h2>100%</h2>
+                <p>ضمان الجودة</p>
+            </div>
+            <div class="stat-item">
+                <h2>24/7</h2>
+                <p>خدمة العملاء</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="story">
+            <h2>رؤيتنا</h2>
+            <p>نطمح لأن نكون المتجر الإلكتروني الأول والأكثر ثقة في دولة الإمارات، من خلال تقديم تجربة تسوق استثنائية تجمع بين الجودة العالية والأسعار التنافسية والخدمة المتميزة.</p>
+        </div>
+
+        <div class="story">
+            <h2>قيمنا</h2>
+            <p><strong>🎯 الجودة أولاً:</strong> نختار كل منتج بعناية فائقة لنضمن رضاك التام.</p>
+            <p><strong>🤝 الشفافية:</strong> أسعار واضحة بدون رسوم مخفية، وسياسات عادلة وواضحة.</p>
+            <p><strong>⚡ السرعة:</strong> معالجة سريعة للطلبات وتوصيل في الوقت المحدد.</p>
+            <p><strong>💙 العميل أولاً:</strong> رضاك هو أولويتنا القصوى في كل ما نقوم به.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>عن المتجر</h3>
+                <p>متجر مخزون الإمارات هو وجهتك الأولى للحصول على منتجات عالية الجودة بأسعار تنافسية.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="index.html#products">المنتجات</a></li>
+                    <li><a href="about.html">من نحن</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>خدمة العملاء</h3>
+                <ul>
+                    <li><a href="shipping.html">سياسة الشحن</a></li>
+                    <li><a href="returns.html">سياسة الإرجاع</a></li>
+                    <li><a href="faq.html">الأسئلة الشائعة</a></li>
+                    <li><a href="privacy.html">سياسة الخصوصية</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>تواصل معنا</h3>
+                <p>📱 واتساب: <a href="https://wa.me/201110760081">+20 111 076 0081</a></p>
+                <p>📧 البريد الإلكتروني: info@matjar-makhzoon.ae</p>
+                <p>📍 الإمارات العربية المتحدة</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 متجر مخزون الإمارات. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+</body>
+</html>
