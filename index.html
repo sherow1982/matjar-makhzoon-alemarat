@@ -199,9 +199,8 @@
             gap: 15px;
         }
 
-        .logo img {
-            height: 60px;
-            width: auto;
+        .logo-text {
+            font-size: 32px;
         }
 
         .logo h1 {
@@ -513,7 +512,7 @@
     <header>
         <div class="header-main">
             <div class="logo">
-                <img src="/logo.png" alt="متجر مخزون الإمارات" onerror="this.style.display='none'">
+                <span class="logo-text">🏪</span>
                 <div>
                     <h1>متجر مخزون الإمارات</h1>
                     <p style="font-size: 14px; color: #666;">جودة عالية بأسعار تنافسية</p>
@@ -606,11 +605,12 @@
     <script>
         let products = [];
 
-        // Generate product file name (same logic as PowerShell script)
+        // Generate product file name - يقرأ من نفس المجلد
         function getProductFileName(product) {
             let name = product.title.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase();
             name = name.replace(/--+/g, '-');
-            return `https://sherow1982.github.io/matjar-makhzoon-alemarat/products/${name}-${product.id}.html`;
+            // يقرأ من نفس الموقع (relative path)
+            return `products/${name}-${product.id}.html`;
         }
 
         // Load products from JSON
