@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 سكربت النشر التلقائي على Twitter فقط
-يسحب منتج عشوائي وينشر (الاسم + السعر + الرابط + الصورة)
+يسحب منتج عشوائي وينشر (الاسم + السعر + رابط المنتج + الصورة)
 """
 
 import json
@@ -12,6 +12,7 @@ import sys
 from datetime import datetime
 import requests
 from io import BytesIO
+from urllib.parse import quote
 
 # ========== تحميل المنتجات ==========
 def load_products():
@@ -59,8 +60,12 @@ def create_post_content(product):
     """إنشاء محتوى المنشور مع الصورة"""
     title = product.get('title', 'منتج جديد')
     price = product.get('price', 'N/A')
-    url = product.get('link', 'https://sherow1982.github.io/matjar-makhzoon-alemarat/')
+    product_id = product.get('id', '')
     image_url = product.get('image_link', '')
+    
+    # بناء رابط المنتج من مجلد products - URL encoding للـ id
+    base_url = 'https://sherow1982.github.io/matjar-makhzoon-alemarat'
+    product_url = f"{base_url}/products/{quote(product_id)}.html"
     
     # محتوى المنشور
     emojis = ['✨', '🔥', '🛒', '🎁', '⭐', '💥', '👑']
@@ -72,13 +77,13 @@ def create_post_content(product):
 🚚 شحن مجاني لجميع الإمارات
 📞 للطلب: +20 111 076 0081
 
-👉 {url}
+👉 {product_url}
 
 #متجر_مخزون_الإمارات #تسوق_الامارات #دبي #الشارقة #عروض"""
     
     return {
         'text': post_text,
-        'url': url,
+        'url': product_url,
         'image_url': image_url,
         'title': title
     }
@@ -158,9 +163,10 @@ def main():
     # 3. إنشاء المحتوى
     content = create_post_content(product)
     print(f"\n📝 المحتوى:\n{content['text']}")
+    print(f"🔗 رابط المنتج: {content['url']}")
     print(f"🖼️ الصورة: {content['image_url'][:80]}...\n")
     
-    # 4. النشر علم Twitter فقط
+    # 4. النشر على Twitter فقط
     success = post_to_twitter(content)
     
     # 5. النتيجة
