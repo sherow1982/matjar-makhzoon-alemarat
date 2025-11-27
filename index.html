@@ -324,17 +324,12 @@
             overflow: hidden;
             box-shadow: 0 5px 20px var(--shadow);
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .product-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 10px 30px var(--shadow);
-        }
-
-        .product-card a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
         }
 
         .product-image {
@@ -404,6 +399,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            margin-top: 10px;
         }
 
         .order-btn:hover {
@@ -614,7 +610,7 @@
         function getProductFileName(product) {
             let name = product.title.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase();
             name = name.replace(/--+/g, '-');
-            return `products/${name}-${product.id}.html`;
+            return `https://sherow1982.github.io/matjar-makhzoon-alemarat/products/${name}-${product.id}.html`;
         }
 
         // Load products from JSON
@@ -637,20 +633,16 @@
                 const whatsappMsg = `مرحباً! أريد طلب المنتج التالي:\n\n📦 ${product.title}\n💰 السعر: ${product.sale_price} ${product.currency}\n\nالرجاء إرسال تفاصيل الطلب.`;
                 
                 return `
-                    <div class="product-card">
-                        <a href="${productPage}">
-                            <img src="${product.image_link}" alt="${product.title}" class="product-image" loading="lazy">
-                            <div class="product-info">
-                                <div class="product-title">${product.title}</div>
-                                <div class="product-description">${product.description.split('\n')[0]}</div>
-                                <div class="price-section">
-                                    <span class="original-price">${product.price} ${product.currency}</span>
-                                    <span class="sale-price">${product.sale_price} ${product.currency}</span>
-                                    <span class="discount-badge">-${discount}%</span>
-                                </div>
+                    <div class="product-card" onclick="window.open('${productPage}', '_blank')">
+                        <img src="${product.image_link}" alt="${product.title}" class="product-image" loading="lazy">
+                        <div class="product-info">
+                            <div class="product-title">${product.title}</div>
+                            <div class="product-description">${product.description.split('\n')[0]}</div>
+                            <div class="price-section">
+                                <span class="original-price">${product.price} ${product.currency}</span>
+                                <span class="sale-price">${product.sale_price} ${product.currency}</span>
+                                <span class="discount-badge">-${discount}%</span>
                             </div>
-                        </a>
-                        <div style="padding: 0 20px 20px;">
                             <button class="order-btn" onclick="event.stopPropagation(); window.open('https://wa.me/201110760081?text=${encodeURIComponent(whatsappMsg)}', '_blank');">🛒 اطلب الآن</button>
                         </div>
                     </div>
