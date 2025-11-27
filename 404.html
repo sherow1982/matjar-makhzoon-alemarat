@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الصفحة غير موجودة - متجر مخزون الإمارات</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#2c5f2d;--accent:#ff6b35;--dark:#1a1a1a;--light:#f8f9fa}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{background:white;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-width:600px;width:100%;padding:40px;text-align:center}
+.error-code{font-size:120px;font-weight:bold;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px;line-height:1}
+.error-title{font-size:32px;color:var(--dark);margin-bottom:15px}
+.error-message{font-size:18px;color:#666;margin-bottom:30px}
+.search-box{background:#f5f5f5;border-radius:12px;padding:15px;margin-bottom:25px}
+#searchInput{width:100%;padding:12px;border:2px solid var(--primary);border-radius:8px;font-size:16px;text-align:center}
+#results{margin-top:15px;max-height:200px;overflow-y:auto}
+.result-item{padding:10px;background:white;margin:5px 0;border-radius:6px;cursor:pointer;transition:0.3s}
+.result-item:hover{background:var(--primary);color:white;transform:translateX(-5px)}
+.countdown{font-size:16px;color:var(--accent);margin:20px 0}
+.btn{display:inline-block;padding:12px 30px;background:var(--primary);color:white;text-decoration:none;border-radius:25px;font-weight:bold;margin:10px;transition:0.3s}
+.btn:hover{transform:scale(1.05);background:var(--accent)}
+.animation{animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="error-code animation">🔍 404</div>
+<h1 class="error-title">الصفحة غير موجودة</h1>
+<p class="error-message">عذراً، لم نتمكن من إيجاد الصنخة التي تبحث عنها</p>
+
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="ابحث عن منتج..." autocomplete="off">
+<div id="results"></div>
+</div>
+
+<div id="countdown" class="countdown"></div>
+
+<div>
+<a href="/index.html" class="btn">🏠 العودة للرئيسية</a>
+<a href="https://wa.me/201110760081" class="btn" target="_blank">📱 تواصل معنا</a>
+</div>
+</div>
+
+<script>
+let products=[];
+let countdown=5;
+let timer;
+
+// تحميل المنتجات
+fetch('/products.json')
+.then(r=>r.json())
+.then(data=>{products=data;analyzeURL();})
+.catch(()=>startCountdown());
+
+function analyzeURL(){
+const path=window.location.pathname;
+const search=window.location.search;
+
+// فحص إذا كان URL يحتوي على كلمات مفتاحية
+const keywords=extractKeywords(path+search);
+
+if(keywords.length>0){
+const match=findBestMatch(keywords);
+if(match){
+document.querySelector('.error-message').innerHTML=`وجدنا منتج مشابه: <strong>${match.title}</strong>`;
+setTimeout(()=>window.location.href=match.url,800);
+return;
+}
+}
+
+startCountdown();
+}
+
+function extractKeywords(text){
+const words=text.toLowerCase()
+.replace(/[^a-z0-9؀-ۿ\s-]/g,' ')
+.split(/\s+/)
+.filter(w=>w.length>2);
+return words;
+}
+
+function findBestMatch(keywords){
+let bestMatch=null;
+let bestScore=0;
+
+products.forEach(p=>{
+let score=0;
+const title=p.title.toLowerCase();
+const desc=(p.description||'').toLowerCase();
+
+keywords.forEach(kw=>{
+if(title.includes(kw))score+=3;
+if(desc.includes(kw))score+=1;
+if(p.id.toLowerCase().includes(kw))score+=2;
+});
+
+if(score>bestScore){
+bestScore=score;
+bestMatch={title:p.title,url:`/products/${getSlug(p)}-${p.id}.html`};
+}
+});
+
+return bestScore>=2?bestMatch:null;
+}
+
+function getSlug(p){
+return p.title.replace(/[^؀-ۿ\w\s-]/g,'').replace(/\s+/g,'-').toLowerCase();
+}
+
+function startCountdown(){
+const el=document.getElementById('countdown');
+timer=setInterval(()=>{
+el.textContent=`سيتم تحويلك للصفحة الرئيسية خلال ${countdown} ثواني...`;
+if(countdown<=0){
+clearInterval(timer);
+window.location.href='/index.html';
+}
+countdown--;
+},1000);
+}
+
+// بحث فوري
+const searchInput=document.getElementById('searchInput');
+const resultsDiv=document.getElementById('results');
+
+searchInput.addEventListener('input',e=>{
+const query=e.target.value.toLowerCase().trim();
+
+if(query.length<2){
+resultsDiv.innerHTML='';
+return;
+}
+
+const matches=products.filter(p=>
+p.title.toLowerCase().includes(query)||
+(p.description||'').toLowerCase().includes(query)
+).slice(0,5);
+
+if(matches.length>0){
+clearInterval(timer);
+document.getElementById('countdown').textContent='';
+
+resultsDiv.innerHTML=matches.map(p=>
+`<div class="result-item" onclick="window.location.href='/products/${getSlug(p)}-${p.id}.html'">
+${p.title}
+</div>`
+).join('');
+}else{
+resultsDiv.innerHTML='<div style="padding:10px;color:#999;">لا توجد نتائج</div>';
+}
+});
+</script>
+</body>
+</html>
