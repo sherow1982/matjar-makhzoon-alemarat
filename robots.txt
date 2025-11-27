@@ -1,72 +1,26 @@
-# robots.txt for متجر مخزون الإمارات
-# تحديث: 2024-11-27
+# robots.txt for matjar-makhzoon-alemarat
+# Updated: November 2024
 
-# ========================================
-# السماح لمحركات البحث الرئيسية
-# ========================================
-
-# Google
+# Allow all major search engines
 User-agent: Googlebot
 Allow: /
 
-User-agent: Googlebot-Image
-Allow: /
-
-User-agent: Googlebot-Mobile
-Allow: /
-
-# Bing
 User-agent: Bingbot
 Allow: /
 
-User-agent: BingPreview
-Allow: /
-
-# Yahoo
 User-agent: Slurp
 Allow: /
 
-# Yandex
-User-agent: Yandex
-Allow: /
-
-# Baidu (محرك البحث الصيني)
-User-agent: Baiduspider
-Allow: /
-
-# DuckDuckGo
 User-agent: DuckDuckBot
 Allow: /
 
-# Facebook & Social Media Crawlers
-User-agent: facebookexternalhit
+User-agent: Baiduspider
 Allow: /
 
-User-agent: Twitterbot
+User-agent: YandexBot
 Allow: /
 
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-User-agent: TelegramBot
-Allow: /
-
-# Pinterest
-User-agent: Pinterestbot
-Allow: /
-
-# Instagram
-User-agent: Instagrambot
-Allow: /
-
-# ========================================
-# منع الروبوتات الضارة والمزعجة
-# ========================================
-
-# Scrapers & Spam Bots
+# Block useless/aggressive bots
 User-agent: AhrefsBot
 Disallow: /
 
@@ -79,157 +33,22 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-User-agent: rogerbot
-Disallow: /
-
 User-agent: BLEXBot
-Disallow: /
-
-User-agent: DataForSeoBot
 Disallow: /
 
 User-agent: PetalBot
 Disallow: /
 
-User-agent: serpstatbot
+User-agent: DataForSeoBot
 Disallow: /
 
-User-agent: Seekport
-Disallow: /
-
-User-agent: linkdexbot
-Disallow: /
-
-User-agent: spbot
-Disallow: /
-
-User-agent: archive.org_bot
-Disallow: /
-
-User-agent: ia_archiver
-Disallow: /
-
-User-agent: proximic
-Disallow: /
-
-User-agent: changedetection
-Disallow: /
-
-User-agent: WeSEE
-Disallow: /
-
-User-agent: Cliqzbot
-Disallow: /
-
-User-agent: MegaIndex.ru
-Disallow: /
-
-User-agent: Mail.RU_Bot
-Disallow: /
-
-User-agent: SeznamBot
-Disallow: /
-
-# Email Harvesters
-User-agent: EmailCollector
-Disallow: /
-
-User-agent: EmailSiphon
-Disallow: /
-
-User-agent: EmailWolf
-Disallow: /
-
-# Content Copiers
-User-agent: HTTrack
-Disallow: /
-
-User-agent: WebCopier
-Disallow: /
-
-User-agent: Wget
-Disallow: /
-
-User-agent: WebZIP
-Disallow: /
-
-User-agent: WebReaper
-Disallow: /
-
-User-agent: WebStripper
-Disallow: /
-
-User-agent: Teleport
-Disallow: /
-
-User-agent: TeleportPro
-Disallow: /
-
-User-agent: Offline Explorer
-Disallow: /
-
-# Bad Bots
-User-agent: psycheclone
-Disallow: /
-
-User-agent: Nutch
-Disallow: /
-
-User-agent: Zeus
-Disallow: /
-
-User-agent: KRAKLE
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Claude-Web
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-# ========================================
-# قواعد عامة لباقي الروبوتات
-# ========================================
-
+# Default rule for all other bots
 User-agent: *
 Allow: /
-Disallow: /cart
-Disallow: /checkout
-Disallow: /admin
-Disallow: /private
-Disallow: /*.json$
-Disallow: /*?*utm_source
-Disallow: /*?*utm_medium
-Disallow: /*?*utm_campaign
-Disallow: /*?*fbclid
-Disallow: /*?*gclid
 
-# ========================================
-# إعدادات الزحف
-# ========================================
-
-# Sitemap
-Sitemap: https://matjar-makhzoon-alemarat.pages.dev/sitemap.xml
-
-# Crawl-delay (فقط للروبوتات المسموح بها)
+# Crawl delay for polite bots
 Crawl-delay: 1
 
-# ========================================
-# ملاحظات
-# ========================================
-# تم السماح لمحركات البحث الرئيسية فقط
-# تم منع روبوتات SEO tools، Scrapers، وAI crawlers
-# تم منع الروبوتات التي تجمع الإيميلات أو تنسخ المحتوى
-# للاستفسار: info@matjar-makhzoon.ae
+# Sitemaps
+Sitemap: https://sherow1982.github.io/matjar-makhzoon-alemarat/sitemap.xml
+Sitemap: https://sherow1982.github.io/matjar-makhzoon-alemarat/sitemap-products.xml
