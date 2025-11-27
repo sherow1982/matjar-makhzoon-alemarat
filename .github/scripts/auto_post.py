@@ -27,7 +27,7 @@ def load_products():
 
 # ========== سحب أسماء الملفات من الفولدر ==========
 def get_product_filenames():
-    """سحب أسماء ملفات HTML الفعلية من مجلد products/"""
+    """سحب أسماء ملفات HTML الفعلية من مجلد products/ وبناء خريطة ID -> اسم الملف الكامل"""
     try:
         from github import Github
         
@@ -40,21 +40,34 @@ def get_product_filenames():
         repo = g.get_repo('sherow1982/matjar-makhzoon-alemarat')
         contents = repo.get_contents('products')
         
-        # بناء خريطة من id -> اسم الملف
+        # بناء خريطة من id -> اسم الملف الكامل
         id_to_filename = {}
         for file in contents:
             if file.name.endswith('.html'):
-                # استخرج الـ id من اسم الملف (بدون .html)
-                filename = file.name[:-5]  # إزالة .html
-                # الـ id ممكن يكون في النهاية أو جزء من الاسم
-                # نحفظ الـ filename كامل
-                id_to_filename[filename] = file.name
+                # استخراج الـ ID من نهاية اسم الملف (قبل .html)
+                # مثال: "منظم-ادراج-المطبخ-5.html" -> ID = 5
+                filename_without_ext = file.name[:-5]  # إزالة .html
+                parts = filename_without_ext.split('-')
+                
+                # آخر جزء هو الـ ID
+                try:
+                    product_id = parts[-1]
+                    # تأكد أنه رقم
+                    int(product_id)
+                    # حفظ: ID -> اسم الملف الكامل
+                    id_to_filename[product_id] = file.name
+                except (ValueError, IndexError):
+                    # لو ما قدر يستخرج ID، تخطى
+                    continue
         
         print(f"✅ تم سحب {len(id_to_filename)} ملف من المجلد")
+        print(f"📋 عينة: {list(id_to_filename.items())[:3]}")
         return id_to_filename
         
     except Exception as e:
         print(f"❌ خطأ في سحب أسماء الملفات: {e}")
+        import traceback
+        traceback.print_exc()
         return {}
 
 # ========== نظام التتبع ==========
@@ -63,7 +76,9 @@ def load_tracking():
     try:
         if os.path.exists('posted_products.json'):
             with open('posted_products.json', 'r', encoding='utf-8') as f:
-                return json.load(f)
+                data = json.load(f)
+                print(f"📊 التتبع الحالي: {len(data.get('posted', []))} منتج منشور في الدورة {data.get('cycle', 1)}")
+                return data
     except:
         pass
     return {"posted": [], "cycle": 1}
@@ -73,33 +88,41 @@ def save_tracking(tracking):
     try:
         with open('posted_products.json', 'w', encoding='utf-8') as f:
             json.dump(tracking, f, ensure_ascii=False, indent=2)
+        print(f"💾 تم حفظ التتبع: {len(tracking['posted'])} منتج")
     except Exception as e:
         print(f"⚠️ فشل حفظ التتبع: {e}")
 
 def select_next_product(products, tracking, filenames):
-    """اختيار المنتج التالي حسب نظام التتبع"""
+    """اختيار المنتج التالي حسب نظام التتبع - ما ينشر منتج مرتين في نفس الدورة"""
     total = len(products)
-    posted = tracking.get('posted', [])
+    posted = set(tracking.get('posted', []))  # استخدام set للبحث السريع
     cycle = tracking.get('cycle', 1)
+    
+    print(f"\n🔍 البحث عن منتج جديد...")
+    print(f"📊 تم نشر {len(posted)} منتج من {total} في الدورة {cycle}")
     
     # إنشاء قائمة بالمنتجات الغير منشورة
     available = []
     for p in products:
         product_id = str(p.get('id'))
-        # تحقق إذا المنتج له ملف في الفولدر
-        has_file = False
-        matching_filename = None
-        for fname in filenames:
-            if fname.startswith(product_id) or fname.endswith(f"-{product_id}"):
-                has_file = True
-                matching_filename = filenames[fname]
-                break
         
-        if has_file and product_id not in posted:
-            available.append({
-                'product': p,
-                'filename': matching_filename
-            })
+        # تحقق: هل المنتج منشور في الدورة الحالية؟
+        if product_id in posted:
+            continue  # تخطى - منشور بالفعل
+        
+        # تحقق: هل المنتج له ملف في الفولدر؟
+        if product_id not in filenames:
+            print(f"⚠️ المنتج {product_id} ({p.get('title', 'N/A')[:30]}) ليس له ملف في الفولدر")
+            continue
+        
+        # منتج متاح للنشر
+        available.append({
+            'product': p,
+            'product_id': product_id,
+            'filename': filenames[product_id]
+        })
+    
+    print(f"✅ وجدنا {len(available)} منتج متاح للنشر")
     
     # إذا خلصت كل المنتجات، ابدأ دورة جديدة
     if not available:
@@ -112,6 +135,9 @@ def select_next_product(products, tracking, filenames):
     
     # اختيار منتج عشوائي من المتاحين
     selected = random.choice(available)
+    print(f"🎯 تم اختيار المنتج: {selected['product'].get('title', 'N/A')}")
+    print(f"📄 الملف: {selected['filename']}")
+    
     return selected['product'], selected['filename']
 
 # ========== تحميل الصورة ==========
@@ -131,14 +157,16 @@ def download_image(image_url):
 
 # ========== إنشاء محتوى المنشور ==========
 def create_post_content(product, filename):
-    """إنشاء محتوى المنشور مع الصورة"""
+    """إنشاء محتوى المنشور مع الصورة - استخدام اسم الملف الفعلي بالكامل"""
     title = product.get('title', 'منتج جديد')
     price = product.get('price', 'N/A')
     image_url = product.get('image_link', '')
     
-    # بناء رابط المنتج من اسم الملف الفعلي
+    # بناء رابط المنتج من اسم الملف الفعلي الكامل (بدون أي تعديل)
     base_url = 'https://sherow1982.github.io/matjar-makhzoon-alemarat'
     product_url = f"{base_url}/products/{filename}"
+    
+    print(f"🔗 الرابط المبني: {product_url}")
     
     # محتوى المنشور
     emojis = ['✨', '🔥', '🛒', '🎁', '⭐', '💥', '👑']
@@ -212,6 +240,8 @@ def post_to_twitter(content):
         
     except Exception as e:
         print(f"❌ خطأ Twitter: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 # ========== البرنامج الرئيسي ==========
@@ -230,9 +260,8 @@ def main():
     # 2. سحب أسماء الملفات من الفولدر
     filenames = get_product_filenames()
     if not filenames:
-        print("⚠️ لم يتم العثور على ملفات - استخدام النظام القديم")
-        # Fallback: استخدام id مباشرة
-        filenames = {str(p['id']): f"{p['id']}.html" for p in products}
+        print("❌ فشل سحب أسماء الملفات من الفولدر")
+        sys.exit(1)
     
     # 3. تحميل نظام التتبع
     tracking = load_tracking()
@@ -243,7 +272,8 @@ def main():
         print("❌ فشل اختيار المنتج")
         sys.exit(1)
     
-    print(f"📦 المنتج المختار: {product.get('title', 'N/A')}")
+    print(f"\n📦 المنتج المختار: {product.get('title', 'N/A')}")
+    print(f"🆔 ID: {product.get('id')}")
     print(f"📄 الملف: {filename}")
     print(f"🔢 الدورة: {tracking['cycle']}")
     print(f"✅ تم نشر: {len(tracking['posted'])}/{len(products)} منتج\n")
@@ -259,9 +289,11 @@ def main():
     
     # 7. تحديث نظام التتبع
     if success:
-        tracking['posted'].append(str(product.get('id')))
+        product_id = str(product.get('id'))
+        tracking['posted'].append(product_id)
         save_tracking(tracking)
         print(f"\n✅ تم تحديث التتبع: {len(tracking['posted'])}/{len(products)}")
+        print(f"📝 المنتج {product_id} تم إضافته لقائمة المنشورات")
     
     # 8. النتيجة
     print("\n" + "="*50)
