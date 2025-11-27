@@ -1,483 +1,17 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سياسة الشحن - متجر مخزون الإمارات</title>
-    <link rel="icon" type="image/x-icon" href="matjar-makhzoon-alemarat/favicon.ico">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #2c5f2d;
-            --primary-light: #4a8f4c;
-            --accent: #ff6b35;
-            --dark: #1a1a1a;
-            --light: #f8f9fa;
-            --text: #333;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text);
-            background: var(--light);
-            line-height: 1.8;
-        }
-
-        .top-bar {
-            background: var(--dark);
-            color: white;
-            padding: 10px 0;
-            font-size: 14px;
-        }
-
-        .top-bar .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .top-bar a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        header {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .header-main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-        }
-
-        .logo-text {
-            font-size: 32px;
-        }
-
-        .logo h1 {
-            color: var(--primary);
-            font-size: 28px;
-        }
-
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .whatsapp-btn:hover {
-            transform: scale(1.05);
-        }
-
-        nav {
-            background: var(--primary);
-            padding: 15px 0;
-        }
-
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        .content {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: var(--primary);
-            font-size: 36px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        h2 {
-            color: var(--primary);
-            font-size: 24px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        ul {
-            margin: 15px 0 15px 30px;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        .highlight-box {
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 30px 0;
-            text-align: center;
-        }
-
-        .highlight-box h2 {
-            color: white;
-            margin: 0 0 15px 0;
-            font-size: 28px;
-        }
-
-        .highlight-box p {
-            font-size: 18px;
-            margin: 0;
-        }
-
-        .shipping-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .shipping-table th,
-        .shipping-table td {
-            padding: 15px;
-            text-align: right;
-            border: 1px solid var(--border);
-        }
-
-        .shipping-table th {
-            background: var(--primary);
-            color: white;
-            font-weight: bold;
-        }
-
-        .shipping-table tr:nth-child(even) {
-            background: var(--light);
-        }
-
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 50px 20px 20px;
-            margin-top: 60px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .footer-section h3 {
-            color: var(--accent);
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            margin: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section a {
-            color: #ddd;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: var(--accent);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid #444;
-            color: #999;
-        }
-
-        @media (max-width: 768px) {
-            .header-main {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .content {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سياسة الشحن - متجر مخزون الإمارات</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<style>*{margin:0;padding:0;box-sizing:border-box}:root{--primary:#2c5f2d;--primary-light:#4a8f4c;--accent:#ff6b35;--dark:#1a1a1a;--light:#f8f9fa;--text:#333}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:var(--text);background:var(--light);line-height:1.8}.top-bar{background:var(--dark);color:white;padding:10px 0;font-size:14px}.top-bar .container{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;padding:0 20px}.top-bar a{color:white;text-decoration:none;margin-left:20px}header{background:white;box-shadow:0 2px 10px rgba(0,0,0,0.1)}.header-main{max-width:1200px;margin:0 auto;padding:20px;display:flex;justify-content:space-between;align-items:center}.logo{display:flex;align-items:center;gap:15px;text-decoration:none}.logo-text{font-size:32px}.logo h1{color:var(--primary);font-size:28px}.whatsapp-btn{background:#25D366;color:white;padding:12px 25px;border-radius:30px;text-decoration:none;font-weight:bold;transition:0.3s}.whatsapp-btn:hover{transform:scale(1.05)}nav{background:var(--primary);padding:15px 0}nav .container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:center;gap:30px;flex-wrap:wrap}nav a{color:white;text-decoration:none;font-weight:500;transition:0.3s}nav a:hover{color:var(--accent)}.content{max-width:900px;margin:40px auto;padding:40px;background:white;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}h1{color:var(--primary);font-size:36px;margin-bottom:30px;text-align:center}h2{color:var(--primary);font-size:24px;margin-top:30px;margin-bottom:15px}p{margin-bottom:15px;text-align:justify}ul{margin:15px 0 15px 30px}li{margin-bottom:10px}.highlight-box{background:linear-gradient(135deg,var(--primary-light) 0%,var(--primary) 100%);color:white;padding:25px;border-radius:15px;margin:30px 0;text-align:center}.highlight-box h2{color:white;margin:0 0 15px 0;font-size:28px}.highlight-box p{font-size:18px;margin:0}.shipping-table{width:100%;border-collapse:collapse;margin:20px 0}.shipping-table th,.shipping-table td{padding:15px;text-align:right;border:1px solid var(--border)}.shipping-table th{background:var(--primary);color:white;font-weight:bold}.shipping-table tr:nth-child(even){background:var(--light)}footer{background:var(--dark);color:white;padding:50px 20px 20px;margin-top:60px}.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px}.footer-section h3{color:var(--accent);margin-bottom:20px;font-size:20px}.footer-section ul{list-style:none;margin:0}.footer-section ul li{margin-bottom:10px}.footer-section a{color:#ddd;text-decoration:none;transition:0.3s}.footer-section a:hover{color:var(--accent)}.footer-bottom{text-align:center;margin-top:40px;padding-top:30px;border-top:1px solid #444;color:#999}@media (max-width:768px){.header-main{flex-direction:column;gap:20px}.content{padding:20px}h1{font-size:28px}}</style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="container">
-            <div>📞 للطلب عبر الواتساب: +20 111 076 0081</div>
-            <div>
-                <a href="matjar-makhzoon-alemarat/">العودة للرئيسية</a>
-            </div>
-        </div>
-    </div>
-
-    <header>
-        <div class="header-main">
-            <a href="matjar-makhzoon-alemarat/" class="logo">
-                <span class="logo-text">🏪</span>
-                <div>
-                    <h1>متجر مخزون الإمارات</h1>
-                    <p style="font-size: 14px; color: #666;">جودة عالية بأسعار تنافسية</p>
-                </div>
-            </a>
-            <a href="https://wa.me/201110760081" class="whatsapp-btn" target="_blank">📱 واتساب</a>
-        </div>
-    </header>
-
-    <nav>
-        <div class="container">
-            <a href="matjar-makhzoon-alemarat/">الرئيسية</a>
-            <a href="matjar-makhzoon-alemarat/#products">المنتجات</a>
-            <a href="matjar-makhzoon-alemarat/privacy.html">سياسة الخصوصية</a>
-            <a href="matjar-makhzoon-alemarat/terms.html">الشروط والأحكام</a>
-            <a href="matjar-makhzoon-alemarat/shipping.html">سياسة الشحن</a>
-            <a href="matjar-makhzoon-alemarat/returns.html">سياسة الإرجاع</a>
-        </div>
-    </nav>
-
-    <div class="content">
-        <h1>سياسة الشحن والتوصيل</h1>
-        
-        <div class="highlight-box">
-            <h2>🚚 شحن مجاني لجميع محافظات الإمارات</h2>
-            <p>نوفر لك خدمة التوصيل المجاني لجميع مناطق دولة الإمارات العربية المتحدة</p>
-        </div>
-
-        <h2>مناطق التوصيل</h2>
-        <p>نقوم بالتوصيل إلى جميع إمارات دولة الإمارات العربية المتحدة:</p>
-        <ul>
-            <li>🏙️ دبي</li>
-            <li>🏛️ أبوظبي</li>
-            <li>🌊 الشارقة</li>
-            <li>🏖️ عجمان</li>
-            <li>🌴 رأس الخيمة</li>
-            <li>⛰️ الفجيرة</li>
-            <li>🏝️ أم القيوين</li>
-        </ul>
-
-        <h2>مدة التوصيل</h2>
-        <table class="shipping-table">
-            <thead>
-                <tr>
-                    <th>المنطقة</th>
-                    <th>مدة التوصيل</th>
-                    <th>تكلفة الشحن</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>دبي والشارقة</td>
-                    <td>2-3 أيام عمل</td>
-                    <td>مجاني</td>
-                </tr>
-                <tr>
-                    <td>أبوظبي والعين</td>
-                    <td>3-4 أيام عمل</td>
-                    <td>مجاني</td>
-                </tr>
-                <tr>
-                    <td>الإمارات الشمالية</td>
-                    <td>3-5 أيام عمل</td>
-                    <td>مجاني</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>عملية الشحن والتوصيل</h2>
-        
-        <h3>1. تأكيد الطلب</h3>
-        <ul>
-            <li>بعد إتمام طلبك، سيتم التواصل معك عبر الواتساب لتأكيد الطلب</li>
-            <li>يجب تأكيد الطلب والعنوان خلال 24 ساعة</li>
-            <li>سنرسل لك رقم تتبع الشحنة عند المعالجة</li>
-        </ul>
-
-        <h3>2. معالجة الطلب</h3>
-        <ul>
-            <li>يتم معالجة الطلبات خلال 1-2 يوم عمل</li>
-            <li>الطلبات المؤكدة قبل الساعة 2 ظهراً تُعالج في نفس اليوم</li>
-            <li>لا تُعالج الطلبات في أيام الجمعة والعطلات الرسمية</li>
-        </ul>
-
-        <h3>3. الشحن</h3>
-        <ul>
-            <li>نستخدم شركات شحن موثوقة ومعتمدة</li>
-            <li>يتم تغليف المنتجات بعناية فائقة لضمان وصولها بحالة ممتازة</li>
-            <li>سيتم إرسال رسالة واتساب عند شحن الطلب</li>
-        </ul>
-
-        <h3>4. التسليم</h3>
-        <ul>
-            <li>سيتواصل معك مندوب التوصيل قبل الوصول بـ 30-60 دقيقة</li>
-            <li>يجب وجود شخص لاستلام الطلب في العنوان المحدد</li>
-            <li>يمكن تحديد موعد مناسب للتسليم بالتنسيق مع المندوب</li>
-            <li>الدفع عند الاستلام نقداً أو عبر بطاقة الائتمان</li>
-        </ul>
-
-        <h2>تتبع الشحنة</h2>
-        <ul>
-            <li>يمكنك تتبع شحنتك عبر رقم التتبع المرسل لك</li>
-            <li>تواصل معنا على الواتساب لمعرفة حالة طلبك</li>
-            <li>سنرسل لك تحديثات منتظمة عن حالة الشحنة</li>
-        </ul>
-
-        <h2>حالات خاصة</h2>
-        
-        <h3>عدم التمكن من التسليم</h3>
-        <ul>
-            <li>إذا لم يتمكن المندوب من التسليم، سيتم التواصل معك لتحديد موعد آخر</li>
-            <li>بعد 3 محاولات فاشلة، سيتم إعادة الطلب وإلغاؤه</li>
-            <li>في حالة رفض استلام الطلب دون سبب مقبول، قد يتم حظرك من الطلب مستقبلاً</li>
-        </ul>
-
-        <h3>الطلبات الكبيرة</h3>
-        <ul>
-            <li>الطلبات التي تحتوي على أكثر من 10 منتجات قد تحتاج وقت إضافي للتحضير</li>
-            <li>سيتم إخطارك بمدة التحضير المتوقعة عند تأكيد الطلب</li>
-        </ul>
-
-        <h3>المناطق النائية</h3>
-        <ul>
-            <li>بعض المناطق النائية قد تحتاج يوم إضافي للتوصيل</li>
-            <li>الشحن يبقى مجانياً لجميع المناطق</li>
-        </ul>
-
-        <h2>التأخير في التوصيل</h2>
-        <p>في حالات نادرة، قد يحدث تأخير بسبب:</p>
-        <ul>
-            <li>الظروف الجوية السيئة</li>
-            <li>ازدحام المرور الشديد</li>
-            <li>العطلات الرسمية والمناسبات</li>
-            <li>ظروف قاهرة خارجة عن إرادتنا</li>
-        </ul>
-        <p>سنبلغك فوراً في حالة أي تأخير متوقع ونبذل قصارى جهدنا لتسريع التوصيل.</p>
-
-        <h2>فحص المنتج عند الاستلام</h2>
-        <ul>
-            <li>يُنصح بفحص المنتج أمام المندوب قبل الدفع</li>
-            <li>في حالة وجود أي تلف أو خطأ في الطلب، يمكنك رفض الاستلام</li>
-            <li>التقط صوراً لأي تلف في العبوة أو المنتج وأبلغنا فوراً</li>
-            <li>نحن نضمن استبدال أي منتج تالف أو معيب</li>
-        </ul>
-
-        <h2>معلومات مهمة</h2>
-        <ul>
-            <li>تأكد من صحة العنوان ورقم الهاتف عند الطلب</li>
-            <li>العنوان غير الصحيح قد يسبب تأخير في التوصيل</li>
-            <li>احتفظ برقم الطلب لسهولة التتبع والاستفسار</li>
-            <li>في حالة الانتقال لعنوان آخر، أخبرنا قبل الشحن</li>
-        </ul>
-
-        <h2>تواصل معنا</h2>
-        <p>لأي استفسارات حول الشحن والتوصيل:</p>
-        <ul>
-            <li>واتساب: <a href="https://wa.me/201110760081" style="color: var(--primary);">+20 111 076 0081</a></li>
-            <li>البريد الإلكتروني: info@matjar-makhzoon.ae</li>
-            <li>نحن متاحون من السبت إلى الخميس، 9 صباحاً - 6 مساءً</li>
-        </ul>
-
-        <p style="margin-top: 30px; font-size: 14px; color: #666;">آخر تحديث: نوفمبر 2024</p>
-    </div>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>عن المتجر</h3>
-                <p>متجر مخزون الإمارات هو وجهتك الأولى للحصول على منتجات عالية الجودة بأسعار تنافسية.</p>
-            </div>
-            
-            <div class="footer-section">
-                <h3>روابط سريعة</h3>
-                <ul>
-                    <li><a href="matjar-makhzoon-alemarat/">الرئيسية</a></li>
-                    <li><a href="matjar-makhzoon-alemarat/#products">المنتجات</a></li>
-                    <li><a href="matjar-makhzoon-alemarat/privacy.html">سياسة الخصوصية</a></li>
-                    <li><a href="matjar-makhzoon-alemarat/terms.html">الشروط والأحكام</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h3>خدمة العملاء</h3>
-                <ul>
-                    <li><a href="matjar-makhzoon-alemarat/shipping.html">سياسة الشحن</a></li>
-                    <li><a href="matjar-makhzoon-alemarat/returns.html">سياسة الإرجاع</a></li>
-                    <li><a href="https://wa.me/201110760081">اتصل بنا</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h3>تواصل معنا</h3>
-                <p>📱 واتساب: <a href="https://wa.me/201110760081">+20 111 076 0081</a></p>
-                <p>📧 البريد الإلكتروني: info@matjar-makhzoon.ae</p>
-                <p>📍 الإمارات العربية المتحدة</p>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 متجر مخزون الإمارات. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
+<div class="top-bar"><div class="container"><div>📞 للطلب عبر الواتساب: +20 111 076 0081</div><div><a href="index.html">العودة للرئيسية</a></div></div></div>
+<header><div class="header-main"><a href="index.html" class="logo"><span class="logo-text">🏪</span><div><h1>متجر مخزون الإمارات</h1><p style="font-size:14px;color:#666;">جودة عالية بأسعار تنافسية</p></div></a><a href="https://wa.me/201110760081" class="whatsapp-btn" target="_blank">📱 واتساب</a></div></header>
+<nav><div class="container"><a href="index.html">الرئيسية</a><a href="index.html#products">المنتجات</a><a href="privacy.html">سياسة الخصوصية</a><a href="terms.html">الشروط والأحكام</a><a href="shipping.html">سياسة الشحن</a><a href="returns.html">سياسة الإرجاع</a></div></nav>
+<div class="content"><h1>سياسة الشحن والتوصيل</h1><div class="highlight-box"><h2>🚚 شحن مجاني لجميع محافظات الإمارات</h2><p>نوفر لك خدمة التوصيل المجاني لجميع مناطق دولة الإمارات العربية المتحدة</p></div><h2>مناطق التوصيل</h2><p>نقوم بالتوصيل إلى جميع إمارات دولة الإمارات العربية المتحدة:</p><ul><li>🏙️ دبي</li><li>🏛️ أبوظبي</li><li>🌊 الشارقة</li><li>🏖️ عجمان</li><li>🌴 رأس الخيمة</li><li>⛰️ الفجيرة</li><li>🏝️ أم القيوين</li></ul><h2>مدة التوصيل</h2><table class="shipping-table"><thead><tr><th>المنطقة</th><th>مدة التوصيل</th><th>تكلفة الشحن</th></tr></thead><tbody><tr><td>دبي والشارقة</td><td>2-3 أيام عمل</td><td>مجاني</td></tr><tr><td>أبوظبي والعين</td><td>3-4 أيام عمل</td><td>مجاني</td></tr><tr><td>الإمارات الشمالية</td><td>3-5 أيام عمل</td><td>مجاني</td></tr></tbody></table><h2>عملية الشحن والتوصيل</h2><h3>1. تأكيد الطلب</h3><ul><li>بعد إتمام طلبك، سيتم التواصل معك عبر الواتساب لتأكيد الطلب</li><li>يجب تأكيد الطلب والعنوان خلال 24 ساعة</li><li>سنرسل لك رقم تتبع الشحنة عند المعالجة</li></ul><h3>2. معالجة الطلب</h3><ul><li>يتم معالجة الطلبات خلال 1-2 يوم عمل</li><li>الطلبات المؤكدة قبل الساعة 2 ظهراً تُعالج في نفس اليوم</li><li>لا تُعالج الطلبات في أيام الجمعة والعطلات الرسمية</li></ul><h3>3. الشحن</h3><ul><li>نستخدم شركات شحن موثوقة ومعتمدة</li><li>يتم تغليف المنتجات بعناية فائقة لضمان وصولها بحالة ممتازة</li><li>سيتم إرسال رسالة واتساب عند شحن الطلب</li></ul><h3>4. التسليم</h3><ul><li>سيتواصل معك مندوب التوصيل قبل الوصول بـ 30-60 دقيقة</li><li>يجب وجود شخص لاستلام الطلب في العنوان المحدد</li><li>يمكن تحديد موعد مناسب للتسليم بالتنسيق مع المندوب</li><li>الدفع عند الاستلام نقداً أو عبر بطاقة الائتمان</li></ul><h2>تتبع الشحنة</h2><ul><li>يمكنك تتبع شحنتك عبر رقم التتبع المرسل لك</li><li>تواصل معنا على الواتساب لمعرفة حالة طلبك</li><li>سنرسل لك تحديثات منتظمة عن حالة الشحنة</li></ul><h2>حالات خاصة</h2><h3>عدم التمكن من التسليم</h3><ul><li>إذا لم يتمكن المندوب من التسليم، سيتم التواصل معك لتحديد موعد آخر</li><li>بعد 3 محاولات فاشلة، سيتم إعادة الطلب وإلغاؤه</li><li>في حالة رفض استلام الطلب دون سبب مقبول، قد يتم حظرك من الطلب مستقبلاً</li></ul><h3>الطلبات الكبيرة</h3><ul><li>الطلبات التي تحتوي على أكثر من 10 منتجات قد تحتاج وقت إضافي للتحضير</li><li>سيتم إخطارك بمدة التحضير المتوقعة عند تأكيد الطلب</li></ul><h3>المناطق النائية</h3><ul><li>بعض المناطق النائية قد تحتاج يوم إضافي للتوصيل</li><li>الشحن يبقى مجانياً لجميع المناطق</li></ul><h2>التأخير في التوصيل</h2><p>في حالات نادرة، قد يحدث تأخير بسبب:</p><ul><li>الظروف الجوية السيئة</li><li>ازدحام المرور الشديد</li><li>العطلات الرسمية والمناسبات</li><li>ظروف قاهرة خارجة عن إرادتنا</li></ul><p>سنبلغك فوراً في حالة أي تأخير متوقع ونبذل قصارى جهدنا لتسريع التوصيل.</p><h2>فحص المنتج عند الاستلام</h2><ul><li>يُنصح بفحص المنتج أمام المندوب قبل الدفع</li><li>في حالة وجود أي تلف أو خطأ في الطلب، يمكنك رفض الاستلام</li><li>التقط صوراً لأي تلف في العبوة أو المنتج وأبلغنا فوراً</li><li>نحن نضمن استبدال أي منتج تالف أو معيب</li></ul><h2>معلومات مهمة</h2><ul><li>تأكد من صحة العنوان ورقم الهاتف عند الطلب</li><li>العنوان غير الصحيح قد يسبب تأخير في التوصيل</li><li>احتفظ برقم الطلب لسهولة التتبع والاستفسار</li><li>في حالة الانتقال لعنوان آخر، أخبرنا قبل الشحن</li></ul><h2>تواصل معنا</h2><p>لأي استفسارات حول الشحن والتوصيل:</p><ul><li>واتساب: <a href="https://wa.me/201110760081" style="color:var(--primary);">+20 111 076 0081</a></li><li>البريد الإلكتروني: info@matjar-makhzoon.ae</li><li>نحن متاحون من السبت إلى الخميس، 9 صباحاً - 6 مساءً</li></ul><p style="margin-top:30px;font-size:14px;color:#666;">آخر تحديث: نوفمبر 2024</p></div>
+<footer><div class="footer-content"><div class="footer-section"><h3>عن المتجر</h3><p>متجر مخزون الإمارات هو وجهتك الأولى للحصول على منتجات عالية الجودة بأسعار تنافسية.</p></div><div class="footer-section"><h3>روابط سريعة</h3><ul><li><a href="index.html">الرئيسية</a></li><li><a href="index.html#products">المنتجات</a></li><li><a href="privacy.html">سياسة الخصوصية</a></li><li><a href="terms.html">الشروط والأحكام</a></li></ul></div><div class="footer-section"><h3>خدمة العملاء</h3><ul><li><a href="shipping.html">سياسة الشحن</a></li><li><a href="returns.html">سياسة الإرجاع</a></li><li><a href="https://wa.me/201110760081">اتصل بنا</a></li></ul></div><div class="footer-section"><h3>تواصل معنا</h3><p>📱 واتساب: <a href="https://wa.me/201110760081">+20 111 076 0081</a></p><p>📧 البريد الإلكتروني: info@matjar-makhzoon.ae</p><p>📍 الإمارات العربية المتحدة</p></div></div><div class="footer-bottom"><p>&copy; 2024 متجر مخزون الإمارات. جميع الحقوق محفوظة.</p></div></footer>
 </body>
 </html>
