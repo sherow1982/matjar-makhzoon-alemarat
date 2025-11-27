@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>الصفحة غير موجودة - متجر مخزون الإمارات</title>
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/x-icon" href="https://sherow1982.github.io/matjar-makhzoon-alemarat/favicon.ico">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#2c5f2d;--accent:#ff6b35;--dark:#1a1a1a;--light:#f8f9fa}
@@ -29,7 +29,7 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 <div class="container">
 <div class="error-code animation">🔍 404</div>
 <h1 class="error-title">الصفحة غير موجودة</h1>
-<p class="error-message">عذراً، لم نتمكن من إيجاد الصنخة التي تبحث عنها</p>
+<p class="error-message">عذراً، لم نتمكن من إيجاد الصفحة التي تبحث عنها</p>
 
 <div class="search-box">
 <input type="text" id="searchInput" placeholder="ابحث عن منتج..." autocomplete="off">
@@ -39,18 +39,19 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-g
 <div id="countdown" class="countdown"></div>
 
 <div>
-<a href="/index.html" class="btn">🏠 العودة للرئيسية</a>
+<a href="https://sherow1982.github.io/matjar-makhzoon-alemarat/" class="btn">🏠 العودة للرئيسية</a>
 <a href="https://wa.me/201110760081" class="btn" target="_blank">📱 تواصل معنا</a>
 </div>
 </div>
 
 <script>
+const BASE_URL='https://sherow1982.github.io/matjar-makhzoon-alemarat';
 let products=[];
 let countdown=5;
 let timer;
 
 // تحميل المنتجات
-fetch('/products.json')
+fetch(BASE_URL+'/products.json')
 .then(r=>r.json())
 .then(data=>{products=data;analyzeURL();})
 .catch(()=>startCountdown());
@@ -99,7 +100,7 @@ if(p.id.toLowerCase().includes(kw))score+=2;
 
 if(score>bestScore){
 bestScore=score;
-bestMatch={title:p.title,url:`/products/${getSlug(p)}-${p.id}.html`};
+bestMatch={title:p.title,url:BASE_URL+`/products/${getSlug(p)}-${p.id}.html`};
 }
 });
 
@@ -116,7 +117,7 @@ timer=setInterval(()=>{
 el.textContent=`سيتم تحويلك للصفحة الرئيسية خلال ${countdown} ثواني...`;
 if(countdown<=0){
 clearInterval(timer);
-window.location.href='/index.html';
+window.location.href=BASE_URL+'/';
 }
 countdown--;
 },1000);
@@ -144,7 +145,7 @@ clearInterval(timer);
 document.getElementById('countdown').textContent='';
 
 resultsDiv.innerHTML=matches.map(p=>
-`<div class="result-item" onclick="window.location.href='/products/${getSlug(p)}-${p.id}.html'">
+`<div class="result-item" onclick="window.location.href='${BASE_URL}/products/${getSlug(p)}-${p.id}.html'">
 ${p.title}
 </div>`
 ).join('');
