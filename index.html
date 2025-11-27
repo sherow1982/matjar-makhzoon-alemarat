@@ -401,6 +401,43 @@
             background: var(--primary-light);
         }
 
+        .load-more-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .load-more-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .load-more-btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .load-more-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .products-count {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
         footer {
             background: var(--dark);
             color: white;
@@ -544,6 +581,13 @@
         <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">منتجاتنا المميزة</h2>
         <p style="text-align: center; color: #666; margin-bottom: 40px;">تصفح أكثر من 800 منتج بجودة عالية</p>
         <div class="products-grid" id="productsContainer"></div>
+        
+        <div class="load-more-container">
+            <button id="loadMoreBtn" class="load-more-btn" onclick="loadMore()">
+                📦 تحميل المزيد من المنتجات
+            </button>
+            <p class="products-count" id="productsCount"></p>
+        </div>
     </section>
 
     <footer>
@@ -593,12 +637,13 @@
 
     <script>
         let products = [];
+        let displayedProducts = [];
+        let currentIndex = 0;
+        const PRODUCTS_PER_PAGE = 24;
 
-        // Generate product file name - بنفس المنطق اللي في PowerShell بالضبط
         function getProductFileName(product) {
-            // نفس الخطوات: شيل علامات، بدل spaces بـ -, صغّر الحروف، شيل -- زيادة
             let name = product.title
-                .replace(/[^\u0600-\u06FF\w\s-]/g, '') // يسيب العربي والإنجليزي والأرقام
+                .replace(/[^\u0600-\u06FF\w\s-]/g, '')
                 .replace(/\s+/g, '-')
                 .toLowerCase()
                 .replace(/--+/g, '-');
@@ -610,15 +655,18 @@
             try {
                 const response = await fetch('products.json');
                 products = await response.json();
-                displayProducts(products);
+                displayedProducts = products;
+                displayProducts();
             } catch (error) {
                 console.error('خطأ في تحميل المنتجات:', error);
             }
         }
 
-        function displayProducts(productsToDisplay) {
+        function displayProducts() {
             const container = document.getElementById('productsContainer');
-            container.innerHTML = productsToDisplay.map(product => {
+            const productsToShow = displayedProducts.slice(0, currentIndex + PRODUCTS_PER_PAGE);
+            
+            container.innerHTML = productsToShow.map(product => {
                 const discount = Math.round(((product.price - product.sale_price) / product.price) * 100);
                 const productPage = getProductFileName(product);
                 const whatsappMsg = `مرحباً! أريد طلب المنتج التالي:\n\n📦 ${product.title}\n💰 السعر: ${product.sale_price} ${product.currency}\n\nالرجاء إرسال تفاصيل الطلب.`;
@@ -639,22 +687,47 @@
                     </div>
                 `;
             }).join('');
+
+            currentIndex = productsToShow.length;
+            updateLoadMoreButton();
+            updateProductsCount();
+        }
+
+        function loadMore() {
+            displayProducts();
+        }
+
+        function updateLoadMoreButton() {
+            const btn = document.getElementById('loadMoreBtn');
+            if (currentIndex >= displayedProducts.length) {
+                btn.disabled = true;
+                btn.textContent = '✅ تم عرض جميع المنتجات';
+            } else {
+                btn.disabled = false;
+                btn.textContent = '📦 تحميل المزيد من المنتجات';
+            }
+        }
+
+        function updateProductsCount() {
+            const countEl = document.getElementById('productsCount');
+            countEl.textContent = `عرض ${currentIndex} من ${displayedProducts.length} منتج`;
         }
 
         function searchProducts() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            currentIndex = 0;
+            
             if (!searchTerm) {
-                displayProducts(products);
-                return;
+                displayedProducts = products;
+            } else {
+                displayedProducts = products.filter(p => 
+                    p.title.toLowerCase().includes(searchTerm) ||
+                    p.description.toLowerCase().includes(searchTerm) ||
+                    p.category.toLowerCase().includes(searchTerm)
+                );
             }
             
-            const filtered = products.filter(p => 
-                p.title.toLowerCase().includes(searchTerm) ||
-                p.description.toLowerCase().includes(searchTerm) ||
-                p.category.toLowerCase().includes(searchTerm)
-            );
-            
-            displayProducts(filtered);
+            displayProducts();
         }
 
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
