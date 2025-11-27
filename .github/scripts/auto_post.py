@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 سكربت النشر التلقائي على Twitter فقط
-يسحب منتج عشوائي وينشر (الاسم + السعر + رابط المنتج + الصورة)
+ينشر منتج كل 8 ساعات مع تتبع كامل - ما يكرر منتج إلا بعد ما يخلص الـ 882 منتج كلهم
 """
 
 import json
@@ -12,7 +12,6 @@ import sys
 from datetime import datetime
 import requests
 from io import BytesIO
-from urllib.parse import quote
 
 # ========== تحميل المنتجات ==========
 def load_products():
@@ -26,19 +25,94 @@ def load_products():
         print(f"❌ خطأ في تحميل المنتجات: {e}")
         return []
 
-# ========== اختيار منتج عشوائي ==========
-def select_random_product(products):
-    """اختيار منتج عشوائي له صورة"""
-    # فلترة المنتجات اللي عندها صور
-    products_with_images = [p for p in products if p.get('image_link')]
+# ========== سحب أسماء الملفات من الفولدر ==========
+def get_product_filenames():
+    """سحب أسماء ملفات HTML الفعلية من مجلد products/"""
+    try:
+        from github import Github
+        
+        token = os.getenv('GITHUB_TOKEN')
+        if not token:
+            print("⚠️ GITHUB_TOKEN not found")
+            return {}
+        
+        g = Github(token)
+        repo = g.get_repo('sherow1982/matjar-makhzoon-alemarat')
+        contents = repo.get_contents('products')
+        
+        # بناء خريطة من id -> اسم الملف
+        id_to_filename = {}
+        for file in contents:
+            if file.name.endswith('.html'):
+                # استخرج الـ id من اسم الملف (بدون .html)
+                filename = file.name[:-5]  # إزالة .html
+                # الـ id ممكن يكون في النهاية أو جزء من الاسم
+                # نحفظ الـ filename كامل
+                id_to_filename[filename] = file.name
+        
+        print(f"✅ تم سحب {len(id_to_filename)} ملف من المجلد")
+        return id_to_filename
+        
+    except Exception as e:
+        print(f"❌ خطأ في سحب أسماء الملفات: {e}")
+        return {}
+
+# ========== نظام التتبع ==========
+def load_tracking():
+    """تحميل ملف التتبع"""
+    try:
+        if os.path.exists('posted_products.json'):
+            with open('posted_products.json', 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except:
+        pass
+    return {"posted": [], "cycle": 1}
+
+def save_tracking(tracking):
+    """حفظ ملف التتبع"""
+    try:
+        with open('posted_products.json', 'w', encoding='utf-8') as f:
+            json.dump(tracking, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"⚠️ فشل حفظ التتبع: {e}")
+
+def select_next_product(products, tracking, filenames):
+    """اختيار المنتج التالي حسب نظام التتبع"""
+    total = len(products)
+    posted = tracking.get('posted', [])
+    cycle = tracking.get('cycle', 1)
     
-    if not products_with_images:
-        print("⚠️ لا توجد منتجات بصور - استخدام كل المنتجات")
-        products_with_images = products
+    # إنشاء قائمة بالمنتجات الغير منشورة
+    available = []
+    for p in products:
+        product_id = str(p.get('id'))
+        # تحقق إذا المنتج له ملف في الفولدر
+        has_file = False
+        matching_filename = None
+        for fname in filenames:
+            if fname.startswith(product_id) or fname.endswith(f"-{product_id}"):
+                has_file = True
+                matching_filename = filenames[fname]
+                break
+        
+        if has_file and product_id not in posted:
+            available.append({
+                'product': p,
+                'filename': matching_filename
+            })
     
-    product = random.choice(products_with_images)
-    print(f"✅ تم اختيار: {product.get('title', 'N/A')}")
-    return product
+    # إذا خلصت كل المنتجات، ابدأ دورة جديدة
+    if not available:
+        print(f"\n🎉 انتهت الدورة {cycle} - تم نشر {len(posted)}/{total} منتج")
+        print("🔄 بدء دورة جديدة...\n")
+        tracking['posted'] = []
+        tracking['cycle'] = cycle + 1
+        save_tracking(tracking)
+        return select_next_product(products, tracking, filenames)
+    
+    # اختيار منتج عشوائي من المتاحين
+    selected = random.choice(available)
+    return selected['product'], selected['filename']
 
 # ========== تحميل الصورة ==========
 def download_image(image_url):
@@ -56,16 +130,15 @@ def download_image(image_url):
         return None
 
 # ========== إنشاء محتوى المنشور ==========
-def create_post_content(product):
+def create_post_content(product, filename):
     """إنشاء محتوى المنشور مع الصورة"""
     title = product.get('title', 'منتج جديد')
     price = product.get('price', 'N/A')
-    product_id = product.get('id', '')
     image_url = product.get('image_link', '')
     
-    # بناء رابط المنتج من مجلد products - URL encoding للـ id
+    # بناء رابط المنتج من اسم الملف الفعلي
     base_url = 'https://sherow1982.github.io/matjar-makhzoon-alemarat'
-    product_url = f"{base_url}/products/{quote(product_id)}.html"
+    product_url = f"{base_url}/products/{filename}"
     
     # محتوى المنشور
     emojis = ['✨', '🔥', '🛒', '🎁', '⭐', '💥', '👑']
@@ -154,22 +227,43 @@ def main():
         print("❌ لا توجد منتجات")
         sys.exit(1)
     
-    # 2. اختيار منتج
-    product = select_random_product(products)
+    # 2. سحب أسماء الملفات من الفولدر
+    filenames = get_product_filenames()
+    if not filenames:
+        print("⚠️ لم يتم العثور على ملفات - استخدام النظام القديم")
+        # Fallback: استخدام id مباشرة
+        filenames = {str(p['id']): f"{p['id']}.html" for p in products}
+    
+    # 3. تحميل نظام التتبع
+    tracking = load_tracking()
+    
+    # 4. اختيار المنتج التالي
+    product, filename = select_next_product(products, tracking, filenames)
     if not product:
         print("❌ فشل اختيار المنتج")
         sys.exit(1)
     
-    # 3. إنشاء المحتوى
-    content = create_post_content(product)
+    print(f"📦 المنتج المختار: {product.get('title', 'N/A')}")
+    print(f"📄 الملف: {filename}")
+    print(f"🔢 الدورة: {tracking['cycle']}")
+    print(f"✅ تم نشر: {len(tracking['posted'])}/{len(products)} منتج\n")
+    
+    # 5. إنشاء المحتوى
+    content = create_post_content(product, filename)
     print(f"\n📝 المحتوى:\n{content['text']}")
     print(f"🔗 رابط المنتج: {content['url']}")
     print(f"🖼️ الصورة: {content['image_url'][:80]}...\n")
     
-    # 4. النشر على Twitter فقط
+    # 6. النشر على Twitter فقط
     success = post_to_twitter(content)
     
-    # 5. النتيجة
+    # 7. تحديث نظام التتبع
+    if success:
+        tracking['posted'].append(str(product.get('id')))
+        save_tracking(tracking)
+        print(f"\n✅ تم تحديث التتبع: {len(tracking['posted'])}/{len(products)}")
+    
+    # 8. النتيجة
     print("\n" + "="*50)
     print("📊 النتيجة:")
     status = "✅" if success else "❌"
