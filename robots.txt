@@ -1,0 +1,12 @@
+# robots.txt for متجر مخزون الإمارات
+
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /checkout
+
+# Sitemap
+Sitemap: https://matjar-makhzoon-alemarat.pages.dev/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
