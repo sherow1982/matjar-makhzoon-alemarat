@@ -27,26 +27,35 @@ def load_products():
 
 # ========== سحب أسماء الملفات من الفولدر ==========
 def get_product_filenames():
-    """سحب أسماء ملفات HTML الفعلية من مجلد products/ وبناء خريطة ID -> اسم الملف الكامل"""
+    """سحب أسماء ملفات HTML الفعلية من مجلد products/ باستخدام GitHub API مباشرة"""
     try:
-        from github import Github
-        
         token = os.getenv('GITHUB_TOKEN')
         if not token:
             print("⚠️ GITHUB_TOKEN not found")
             return {}
         
-        g = Github(token)
-        repo = g.get_repo('sherow1982/matjar-makhzoon-alemarat')
-        contents = repo.get_contents('products')
+        # استخدام GitHub API مباشرة
+        headers = {
+            'Authorization': f'token {token}',
+            'Accept': 'application/vnd.github.v3+json'
+        }
+        
+        url = 'https://api.github.com/repos/sherow1982/matjar-makhzoon-alemarat/contents/products'
+        response = requests.get(url, headers=headers, timeout=30)
+        
+        if response.status_code != 200:
+            print(f"❌ فشل الاتصال بـ GitHub API: {response.status_code}")
+            return {}
+        
+        contents = response.json()
         
         # بناء خريطة من id -> اسم الملف الكامل
         id_to_filename = {}
         for file in contents:
-            if file.name.endswith('.html'):
+            if file['name'].endswith('.html'):
                 # استخراج الـ ID من نهاية اسم الملف (قبل .html)
                 # مثال: "منظم-ادراج-المطبخ-5.html" -> ID = 5
-                filename_without_ext = file.name[:-5]  # إزالة .html
+                filename_without_ext = file['name'][:-5]  # إزالة .html
                 parts = filename_without_ext.split('-')
                 
                 # آخر جزء هو الـ ID
@@ -55,13 +64,14 @@ def get_product_filenames():
                     # تأكد أنه رقم
                     int(product_id)
                     # حفظ: ID -> اسم الملف الكامل
-                    id_to_filename[product_id] = file.name
+                    id_to_filename[product_id] = file['name']
                 except (ValueError, IndexError):
                     # لو ما قدر يستخرج ID، تخطى
                     continue
         
         print(f"✅ تم سحب {len(id_to_filename)} ملف من المجلد")
-        print(f"📋 عينة: {list(id_to_filename.items())[:3]}")
+        if id_to_filename:
+            print(f"📋 عينة: {list(id_to_filename.items())[:3]}")
         return id_to_filename
         
     except Exception as e:
@@ -112,7 +122,6 @@ def select_next_product(products, tracking, filenames):
         
         # تحقق: هل المنتج له ملف في الفولدر؟
         if product_id not in filenames:
-            print(f"⚠️ المنتج {product_id} ({p.get('title', 'N/A')[:30]}) ليس له ملف في الفولدر")
             continue
         
         # منتج متاح للنشر
