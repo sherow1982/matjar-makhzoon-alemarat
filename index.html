@@ -153,7 +153,6 @@
             line-height: 1.6;
         }
 
-        /* Header */
         .top-bar {
             background: var(--dark);
             color: white;
@@ -259,7 +258,6 @@
             box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
         }
 
-        /* Navigation */
         nav {
             background: var(--primary);
             padding: 15px 0;
@@ -285,7 +283,6 @@
             color: var(--accent);
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
@@ -303,7 +300,6 @@
             margin-bottom: 30px;
         }
 
-        /* Products Grid */
         .container {
             max-width: 1200px;
             margin: 40px auto;
@@ -405,7 +401,6 @@
             background: var(--primary-light);
         }
 
-        /* Footer */
         footer {
             background: var(--dark);
             color: white;
@@ -497,7 +492,6 @@
     </style>
 </head>
 <body>
-    <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
             <div>📞 للطلب عبر الواتساب: +20 111 076 0081</div>
@@ -508,7 +502,6 @@
         </div>
     </div>
 
-    <!-- Header -->
     <header>
         <div class="header-main">
             <div class="logo">
@@ -529,7 +522,6 @@
         </div>
     </header>
 
-    <!-- Navigation -->
     <nav>
         <div class="container">
             <a href="#">الرئيسية</a>
@@ -541,7 +533,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h2>🛍️ أفضل العروض والخصومات</h2>
@@ -549,14 +540,12 @@
         </div>
     </section>
 
-    <!-- Products Section -->
     <section id="products" class="container">
         <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">منتجاتنا المميزة</h2>
         <p style="text-align: center; color: #666; margin-bottom: 40px;">تصفح أكثر من 800 منتج بجودة عالية</p>
         <div class="products-grid" id="productsContainer"></div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -605,15 +594,18 @@
     <script>
         let products = [];
 
-        // Generate product file name - يقرأ من نفس المجلد
+        // Generate product file name - بنفس المنطق اللي في PowerShell بالضبط
         function getProductFileName(product) {
-            let name = product.title.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase();
-            name = name.replace(/--+/g, '-');
-            // يقرأ من نفس الموقع (relative path)
+            // نفس الخطوات: شيل علامات، بدل spaces بـ -, صغّر الحروف، شيل -- زيادة
+            let name = product.title
+                .replace(/[^\u0600-\u06FF\w\s-]/g, '') // يسيب العربي والإنجليزي والأرقام
+                .replace(/\s+/g, '-')
+                .toLowerCase()
+                .replace(/--+/g, '-');
+            
             return `products/${name}-${product.id}.html`;
         }
 
-        // Load products from JSON
         async function loadProducts() {
             try {
                 const response = await fetch('products.json');
@@ -624,7 +616,6 @@
             }
         }
 
-        // Display products
         function displayProducts(productsToDisplay) {
             const container = document.getElementById('productsContainer');
             container.innerHTML = productsToDisplay.map(product => {
@@ -650,7 +641,6 @@
             }).join('');
         }
 
-        // Search products
         function searchProducts() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             if (!searchTerm) {
@@ -667,12 +657,10 @@
             displayProducts(filtered);
         }
 
-        // Search on Enter key
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') searchProducts();
         });
 
-        // Initialize
         loadProducts();
     </script>
 </body>
