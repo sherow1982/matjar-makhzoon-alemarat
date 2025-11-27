@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
+<head>
     <meta charset="UTF-8" />
-
+    
     <!-- Favicon & Logo -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
-
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    
     <!-- Primary Meta Tags -->
     <title>متجر مخزون الإمارات - منتجات عالية الجودة بأفضل الأسعار</title>
     <meta name="title" content="متجر مخزون الإمارات - منتجات عالية الجودة بأفضل الأسعار" />
@@ -19,7 +19,7 @@
     <meta name="author" content="متجر مخزون الإمارات" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="Arabic" />
-
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://matjar-makhzoon-alemarat.pages.dev/" />
@@ -30,41 +30,41 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="ar_AE" />
     <meta property="og:site_name" content="متجر مخزون الإمارات" />
-
+    
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://matjar-makhzoon-alemarat.pages.dev/" />
     <meta property="twitter:title" content="متجر مخزون الإمارات - منتجات عالية الجودة" />
     <meta property="twitter:description" content="تسوق منتجات عالية الجودة بأفضل الأسعار مع توصيل سريع والدفع عند الاستلام" />
     <meta property="twitter:image" content="https://matjar-makhzoon-alemarat.pages.dev/og-image.jpg" />
-
+    
     <!-- Canonical URL -->
     <link rel="canonical" href="https://matjar-makhzoon-alemarat.pages.dev/" />
-
+    
     <!-- Alternate Languages -->
     <link rel="alternate" hreflang="ar" href="https://matjar-makhzoon-alemarat.pages.dev/" />
     <link rel="alternate" hreflang="ar-ae" href="https://matjar-makhzoon-alemarat.pages.dev/" />
-
+    
     <!-- Theme Color -->
     <meta name="theme-color" content="#2563eb" />
     <meta name="msapplication-TileColor" content="#2563eb" />
     <meta name="msapplication-TileImage" content="/logo.png" />
-
+    
     <!-- Mobile Optimized -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="مخزون الإمارات" />
-
+    
     <!-- Contact & Business Info -->
     <meta name="contact" content="info@m5zoon.com" />
     <meta name="geo.region" content="AE" />
     <meta name="geo.placename" content="الإمارات العربية المتحدة" />
-
+    
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
+    
     <!-- Structured Data - Organization -->
     <script type="application/ld+json">
     {
@@ -86,7 +86,7 @@
       ]
     }
     </script>
-
+    
     <!-- Structured Data - E-commerce Website -->
     <script type="application/ld+json">
     {
@@ -102,7 +102,7 @@
       }
     }
     </script>
-
+    
     <!-- Structured Data - Local Business -->
     <script type="application/ld+json">
     {
@@ -127,10 +127,561 @@
       "currenciesAccepted": "AED"
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-DGGBz5tw.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Cof0bChl.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c5f2d;
+            --primary-light: #4a8f4c;
+            --accent: #ff6b35;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --text: #333;
+            --border: #e0e0e0;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .top-bar {
+            background: var(--dark);
+            color: white;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 28px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .search-bar {
+            display: flex;
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .search-bar input {
+            border: none;
+            padding: 12px 20px;
+            width: 300px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: var(--primary-light);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            padding: 15px 0;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Products Grid */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .product-card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dark);
+            min-height: 50px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .sale-price {
+            color: var(--accent);
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .discount-badge {
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .order-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .order-btn:hover {
+            background: var(--primary-light);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            background: var(--primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .search-bar input {
+                width: 200px;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            nav .container {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div>📞 للطلب عبر الواتساب: +20 111 076 0081</div>
+            <div>
+                <a href="#">تتبع الطلب</a>
+                <a href="#">المساعدة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-main">
+            <div class="logo">
+                <img src="/logo.png" alt="متجر مخزون الإمارات" onerror="this.style.display='none'">
+                <div>
+                    <h1>متجر مخزون الإمارات</h1>
+                    <p style="font-size: 14px; color: #666;">جودة عالية بأسعار تنافسية</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="ابحث عن منتجات...">
+                    <button onclick="searchProducts()">🔍</button>
+                </div>
+                <a href="https://wa.me/201110760081" class="whatsapp-btn" target="_blank">📱 واتساب</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#">الرئيسية</a>
+            <a href="#products">المنتجات</a>
+            <a href="#">العروض</a>
+            <a href="#">الأكثر مبيعاً</a>
+            <a href="#">من نحن</a>
+            <a href="#">اتصل بنا</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>🛍️ أفضل العروض والخصومات</h2>
+            <p>اكتشف مجموعة واسعة من المنتجات عالية الجودة بأسعار لا تقبل المنافسة</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="container">
+        <h2 style="text-align: center; font-size: 36px; margin-bottom: 10px;">منتجاتنا المميزة</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 40px;">تصفح أكثر من 800 منتج بجودة عالية</p>
+        <div class="products-grid" id="productsContainer"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>عن المتجر</h3>
+                <p>متجر مخزون الإمارات هو وجهتك الأولى للحصول على منتجات عالية الجودة بأسعار تنافسية في الإمارات العربية المتحدة.</p>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">📷</a>
+                    <a href="#">🐦</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="#">الرئيسية</a></li>
+                    <li><a href="#products">المنتجات</a></li>
+                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="#">الشروط والأحكام</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>خدمة العملاء</h3>
+                <ul>
+                    <li><a href="#">تتبع الطلب</a></li>
+                    <li><a href="#">سياسة الإرجاع</a></li>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>تواصل معنا</h3>
+                <p>📱 واتساب: <a href="https://wa.me/201110760081">+20 111 076 0081</a></p>
+                <p>📧 البريد الإلكتروني: info@matjar-makhzoon.ae</p>
+                <p>📍 الإمارات العربية المتحدة</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 متجر مخزون الإمارات. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        let products = [];
+
+        // Generate product file name (same logic as PowerShell script)
+        function getProductFileName(product) {
+            let name = product.title.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase();
+            name = name.replace(/--+/g, '-');
+            return `products/${name}-${product.id}.html`;
+        }
+
+        // Load products from JSON
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                products = await response.json();
+                displayProducts(products);
+            } catch (error) {
+                console.error('خطأ في تحميل المنتجات:', error);
+            }
+        }
+
+        // Display products
+        function displayProducts(productsToDisplay) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = productsToDisplay.map(product => {
+                const discount = Math.round(((product.price - product.sale_price) / product.price) * 100);
+                const productPage = getProductFileName(product);
+                const whatsappMsg = `مرحباً! أريد طلب المنتج التالي:\n\n📦 ${product.title}\n💰 السعر: ${product.sale_price} ${product.currency}\n\nالرجاء إرسال تفاصيل الطلب.`;
+                
+                return `
+                    <div class="product-card">
+                        <a href="${productPage}">
+                            <img src="${product.image_link}" alt="${product.title}" class="product-image" loading="lazy">
+                            <div class="product-info">
+                                <div class="product-title">${product.title}</div>
+                                <div class="product-description">${product.description.split('\n')[0]}</div>
+                                <div class="price-section">
+                                    <span class="original-price">${product.price} ${product.currency}</span>
+                                    <span class="sale-price">${product.sale_price} ${product.currency}</span>
+                                    <span class="discount-badge">-${discount}%</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div style="padding: 0 20px 20px;">
+                            <button class="order-btn" onclick="event.stopPropagation(); window.open('https://wa.me/201110760081?text=${encodeURIComponent(whatsappMsg)}', '_blank');">🛒 اطلب الآن</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchTerm) {
+                displayProducts(products);
+                return;
+            }
+            
+            const filtered = products.filter(p => 
+                p.title.toLowerCase().includes(searchTerm) ||
+                p.description.toLowerCase().includes(searchTerm) ||
+                p.category.toLowerCase().includes(searchTerm)
+            );
+            
+            displayProducts(filtered);
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchProducts();
+        });
+
+        // Initialize
+        loadProducts();
+    </script>
+</body>
 </html>
