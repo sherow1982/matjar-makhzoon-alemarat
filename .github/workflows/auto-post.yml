@@ -2,10 +2,10 @@ name: Auto Post Products - Twitter Only
 
 on:
   schedule:
-    # كل 7 ساعات (3 بوستات في اليوم)
-    # 1:00 AM, 8:00 AM, 3:00 PM UTC
-    # (3:00 صباحاً, 10:00 صباحاً, 5:00 مساءً بتوقيت مصر +2)
-    - cron: '0 1,8,15 * * *'
+    # كل 8 ساعات (3 بوستات في اليوم)
+    # 00:00, 08:00, 16:00 UTC
+    # (2:00 صباحاً, 10:00 صباحاً, 6:00 مساءً بتوقيت مصر +2)
+    - cron: '0 0,8,16 * * *'
   workflow_dispatch: # للتشغيل اليدوي
 
 jobs:
@@ -27,9 +27,19 @@ jobs:
     
     - name: Run auto-posting script (Twitter only)
       env:
-        # مفاتيح Twitter فقط
+        # GitHub token لسحب أسماء الملفات
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # مفاتيح Twitter
         TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
         TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
         TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
         TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
       run: python .github/scripts/auto_post.py
+    
+    - name: Commit tracking file
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add posted_products.json || true
+        git commit -m "Update posted products tracking [skip ci]" || true
+        git push || true
