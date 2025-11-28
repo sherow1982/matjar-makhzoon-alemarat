@@ -12,6 +12,7 @@ import sys
 from datetime import datetime
 import requests
 from io import BytesIO
+import xml.etree.ElementTree as ET
 
 # ========== تحميل المنتجات ==========
 def load_products():
@@ -25,60 +26,74 @@ def load_products():
         print(f"❌ خطأ في تحميل المنتجات: {e}")
         return []
 
-# ========== سحب أسماء الملفات من الفولدر ==========
-def get_product_filenames():
-    """سحب أسماء ملفات HTML الفعلية من مجلد products/ باستخدام GitHub API مباشرة"""
+# ========== سحب الروابط من sitemap.xml ==========
+def get_product_urls_from_sitemap():
+    """سحب روابط المنتجات مباشرة من sitemap.xml"""
     try:
-        token = os.getenv('GITHUB_TOKEN')
-        if not token:
-            print("⚠️ GITHUB_TOKEN not found")
-            return {}
+        # قراءة ملف sitemap.xml
+        with open('sitemap.xml', 'r', encoding='utf-8') as f:
+            sitemap_content = f.read()
         
-        # استخدام GitHub API مباشرة
-        headers = {
-            'Authorization': f'token {token}',
-            'Accept': 'application/vnd.github.v3+json'
-        }
+        # Parse XML
+        root = ET.fromstring(sitemap_content)
         
-        url = 'https://api.github.com/repos/sherow1982/matjar-makhzoon-alemarat/contents/products'
-        response = requests.get(url, headers=headers, timeout=30)
+        # النمسبيس الخاص بـ sitemap
+        namespace = {'ns': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
         
-        if response.status_code != 200:
-            print(f"❌ فشل الاتصال بـ GitHub API: {response.status_code}")
-            return {}
+        # سحب كل الروابط من <loc>
+        urls = []
+        for url_element in root.findall('ns:url', namespace):
+            loc = url_element.find('ns:loc', namespace)
+            if loc is not None and loc.text:
+                url = loc.text.strip()
+                # فقط روابط المنتجات (اللي فيها /products/)
+                if '/products/' in url and url.endswith('.html'):
+                    urls.append(url)
         
-        contents = response.json()
+        print(f"✅ تم سحب {len(urls)} رابط من sitemap.xml")
         
-        # بناء خريطة من id -> اسم الملف الكامل
-        id_to_filename = {}
-        for file in contents:
-            if file['name'].endswith('.html'):
-                # استخراج الـ ID من نهاية اسم الملف (قبل .html)
-                # مثال: "منظم-ادراج-المطبخ-5.html" -> ID = 5
-                filename_without_ext = file['name'][:-5]  # إزالة .html
-                parts = filename_without_ext.split('-')
-                
-                # آخر جزء هو الـ ID
-                try:
-                    product_id = parts[-1]
-                    # تأكد أنه رقم
-                    int(product_id)
-                    # حفظ: ID -> اسم الملف الكامل
-                    id_to_filename[product_id] = file['name']
-                except (ValueError, IndexError):
-                    # لو ما قدر يستخرج ID، تخطى
-                    continue
+        if urls:
+            print(f"📋 عينة: {urls[:3]}")
         
-        print(f"✅ تم سحب {len(id_to_filename)} ملف من المجلد")
-        if id_to_filename:
-            print(f"📋 عينة: {list(id_to_filename.items())[:3]}")
-        return id_to_filename
+        return urls
         
     except Exception as e:
-        print(f"❌ خطأ في سحب أسماء الملفات: {e}")
+        print(f"❌ خطأ في سحب الروابط من sitemap.xml: {e}")
         import traceback
         traceback.print_exc()
-        return {}
+        return []
+
+# ========== استخراج ID من الرابط ==========
+def extract_id_from_url(url):
+    """استخراج product ID من الرابط
+    مثال: .../products/جهاز-مساج-لتدليك-فروة-الرأس-1.html -> 1
+    """
+    try:
+        # استخراج اسم الملف من الرابط
+        filename = url.split('/products/')[-1]
+        # إزالة .html
+        filename_without_ext = filename.replace('.html', '')
+        # آخر جزء بعد شرطة هو الـ ID
+        parts = filename_without_ext.split('-')
+        product_id = parts[-1]
+        # تأكد أنه رقم
+        int(product_id)
+        return product_id
+    except:
+        return None
+
+# ========== بناء خريطة ID -> URL ==========
+def build_id_to_url_map(urls):
+    """بناء خريطة من product ID إلى URL الكامل"""
+    id_to_url = {}
+    
+    for url in urls:
+        product_id = extract_id_from_url(url)
+        if product_id:
+            id_to_url[product_id] = url
+    
+    print(f"✅ تم بناء خريطة لـ {len(id_to_url)} منتج")
+    return id_to_url
 
 # ========== نظام التتبع ==========
 def load_tracking():
@@ -102,8 +117,8 @@ def save_tracking(tracking):
     except Exception as e:
         print(f"⚠️ فشل حفظ التتبع: {e}")
 
-def select_next_product(products, tracking, filenames):
-    """اختيار المنتج التالي حسب نظام التتبع - ما ينشر منتج مرتين في نفس الدورة"""
+def select_next_product(products, tracking, id_to_url):
+    """اختيار المنتج التالي حسب ننظام التتبع - ما ينشر منتج مرتين في نفس الدورة"""
     total = len(products)
     posted = set(tracking.get('posted', []))  # استخدام set للبحث السريع
     cycle = tracking.get('cycle', 1)
@@ -120,15 +135,15 @@ def select_next_product(products, tracking, filenames):
         if product_id in posted:
             continue  # تخطى - منشور بالفعل
         
-        # تحقق: هل المنتج له ملف في الفولدر؟
-        if product_id not in filenames:
+        # تحقق: هل المنتج له رابط في السايت ماب؟
+        if product_id not in id_to_url:
             continue
         
         # منتج متاح للنشر
         available.append({
             'product': p,
             'product_id': product_id,
-            'filename': filenames[product_id]
+            'url': id_to_url[product_id]
         })
     
     print(f"✅ وجدنا {len(available)} منتج متاح للنشر")
@@ -140,14 +155,14 @@ def select_next_product(products, tracking, filenames):
         tracking['posted'] = []
         tracking['cycle'] = cycle + 1
         save_tracking(tracking)
-        return select_next_product(products, tracking, filenames)
+        return select_next_product(products, tracking, id_to_url)
     
     # اختيار منتج عشوائي من المتاحين
     selected = random.choice(available)
     print(f"🎯 تم اختيار المنتج: {selected['product'].get('title', 'N/A')}")
-    print(f"📄 الملف: {selected['filename']}")
+    print(f"🔗 الرابط: {selected['url']}")
     
-    return selected['product'], selected['filename']
+    return selected['product'], selected['url']
 
 # ========== تحميل الصورة ==========
 def download_image(image_url):
@@ -165,20 +180,17 @@ def download_image(image_url):
         return None
 
 # ========== إنشاء محتوى المنشور ==========
-def create_post_content(product, filename):
-    """إنشاء محتوى المنشور مع الصورة - استخدام اسم الملف الفعلي بالكامل"""
+def create_post_content(product, product_url):
+    """إنشاء محتوى المنشور مع الصورة - استخدام الرابط من sitemap.xml مباشرة"""
     title = product.get('title', 'منتج جديد')
     price = product.get('price', 'N/A')
     image_url = product.get('image_link', '')
     
-    # بناء رابط المنتج من اسم الملف الفعلي الكامل (بدون أي تعديل)
-    base_url = 'https://sherow1982.github.io/matjar-makhzoon-alemarat'
-    product_url = f"{base_url}/products/{filename}"
-    
-    print(f"🔗 الرابط المبني: {product_url}")
+    # الرابط مباشرة من sitemap.xml
+    print(f"🔗 الرابط من sitemap: {product_url}")
     
     # محتوى المنشور
-    emojis = ['✨', '🔥', '🛒', '🎁', '⭐', '💥', '👑']
+    emojis = ['✨', '🔥', '🛍', '🎁', '⭐', '💥', '👑']
     emoji = random.choice(emojis)
     
     post_text = f"""{emoji} {title}
@@ -266,37 +278,43 @@ def main():
         print("❌ لا توجد منتجات")
         sys.exit(1)
     
-    # 2. سحب أسماء الملفات من الفولدر
-    filenames = get_product_filenames()
-    if not filenames:
-        print("❌ فشل سحب أسماء الملفات من الفولدر")
+    # 2. سحب الروابط من sitemap.xml
+    product_urls = get_product_urls_from_sitemap()
+    if not product_urls:
+        print("❌ فشل سحب الروابط من sitemap.xml")
         sys.exit(1)
     
-    # 3. تحميل نظام التتبع
+    # 3. بناء خريطة ID -> URL
+    id_to_url = build_id_to_url_map(product_urls)
+    if not id_to_url:
+        print("❌ فشل بناء خريطة الروابط")
+        sys.exit(1)
+    
+    # 4. تحميل نظام التتبع
     tracking = load_tracking()
     
-    # 4. اختيار المنتج التالي
-    product, filename = select_next_product(products, tracking, filenames)
+    # 5. اختيار المنتج التالي
+    product, product_url = select_next_product(products, tracking, id_to_url)
     if not product:
         print("❌ فشل اختيار المنتج")
         sys.exit(1)
     
     print(f"\n📦 المنتج المختار: {product.get('title', 'N/A')}")
     print(f"🆔 ID: {product.get('id')}")
-    print(f"📄 الملف: {filename}")
+    print(f"🔗 الرابط: {product_url}")
     print(f"🔢 الدورة: {tracking['cycle']}")
     print(f"✅ تم نشر: {len(tracking['posted'])}/{len(products)} منتج\n")
     
-    # 5. إنشاء المحتوى
-    content = create_post_content(product, filename)
+    # 6. إنشاء المحتوى
+    content = create_post_content(product, product_url)
     print(f"\n📝 المحتوى:\n{content['text']}")
     print(f"🔗 رابط المنتج: {content['url']}")
     print(f"🖼️ الصورة: {content['image_url'][:80]}...\n")
     
-    # 6. النشر على Twitter فقط
+    # 7. النشر على Twitter فقط
     success = post_to_twitter(content)
     
-    # 7. تحديث نظام التتبع
+    # 8. تحديث نظام التتبع
     if success:
         product_id = str(product.get('id'))
         tracking['posted'].append(product_id)
@@ -304,7 +322,7 @@ def main():
         print(f"\n✅ تم تحديث التتبع: {len(tracking['posted'])}/{len(products)}")
         print(f"📝 المنتج {product_id} تم إضافته لقائمة المنشورات")
     
-    # 8. النتيجة
+    # 9. النتيجة
     print("\n" + "="*50)
     print("📊 النتيجة:")
     status = "✅" if success else "❌"
