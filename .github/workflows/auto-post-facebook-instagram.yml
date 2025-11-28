@@ -1,0 +1,46 @@
+name: Auto Post Products - Facebook & Instagram
+
+on:
+  schedule:
+    # كل 8 ساعات (3 بوستات في اليوم)
+    # 00:00, 08:00, 16:00 UTC
+    # (2:00 صباحاً, 10:00 صباحاً, 6:00 مساءً بتوقيت مصر +2)
+    - cron: '0 0,8,16 * * *'
+  workflow_dispatch: # للتشغيل اليدوي
+
+jobs:
+  post-product:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        pip install requests Pillow
+    
+    - name: Run auto-posting script (Facebook & Instagram)
+      env:
+        # GitHub token لسحب أسماء الملفات
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # مفاتيح Facebook
+        FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+        FACEBOOK_ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
+        # مفاتيح Instagram
+        INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+        INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+      run: python .github/scripts/auto_post_fb_ig.py
+    
+    - name: Commit tracking file
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add posted_products_fb_ig.json || true
+        git commit -m "Update posted products tracking (FB/IG) [skip ci]" || true
+        git push || true
