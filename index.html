@@ -15,14 +15,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
             background-color: #f5f5f5;
         }
-
+        
         header {
             background: linear-gradient(135deg, #1877f2 0%, #0a66c2 100%);
             color: white;
@@ -30,23 +30,23 @@
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
+        
         header h1 {
             font-size: 32px;
             margin-bottom: 10px;
         }
-
+        
         header p {
             font-size: 16px;
             opacity: 0.9;
         }
-
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
+        
         nav {
             background-color: white;
             padding: 15px 20px;
@@ -58,18 +58,18 @@
             gap: 30px;
             flex-wrap: wrap;
         }
-
+        
         nav a {
             color: #1877f2;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
-
+        
         nav a:hover {
             color: #0a66c2;
         }
-
+        
         .hero {
             background: white;
             padding: 40px;
@@ -78,74 +78,19 @@
             margin-bottom: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
+        
         .hero h2 {
             color: #1877f2;
             margin-bottom: 20px;
             font-size: 28px;
         }
-
+        
         .hero p {
             margin-bottom: 20px;
             font-size: 16px;
             line-height: 1.8;
         }
-
-        .facebook-login {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-
-        .facebook-login h3 {
-            color: #1877f2;
-            margin-bottom: 20px;
-        }
-
-        .fb-button {
-            background-color: #1877f2;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-weight: 600;
-        }
-
-        .fb-button:hover {
-            background-color: #0a66c2;
-        }
-
-        .fb-button:active {
-            background-color: #08519e;
-        }
-
-        .status-info {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f0f2f5;
-            border-radius: 6px;
-            display: none;
-        }
-
-        .status-info.active {
-            display: block;
-        }
-
-        .status-info p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
-        .status-info strong {
-            color: #1877f2;
-        }
-
+        
         .content {
             background: white;
             padding: 40px;
@@ -153,25 +98,25 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             margin-bottom: 30px;
         }
-
+        
         .content h3 {
             color: #1877f2;
             margin-bottom: 20px;
             margin-top: 20px;
         }
-
+        
         .content h3:first-child {
             margin-top: 0;
         }
-
+        
         .content ul {
             margin-right: 20px;
         }
-
+        
         .content li {
             margin-bottom: 10px;
         }
-
+        
         footer {
             background-color: #333;
             color: white;
@@ -179,31 +124,18 @@
             padding: 20px;
             margin-top: 40px;
         }
-
+        
         footer a {
             color: #1877f2;
             text-decoration: none;
         }
-
+        
         footer a:hover {
             text-decoration: underline;
-        }
-
-        .divider {
-            border: 0;
-            height: 1px;
-            background: #ddd;
-            margin: 30px 0;
         }
     </style>
 </head>
 <body>
-    <!-- Facebook SDK -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" 
-        src="https://connect.facebook.net/ar_AR/sdk.js#xfbml=1&version=v18.0&appId=949203670580702&autoLogAppEvents=1" 
-        nonce="949203670580702"></script>
-
     <header>
         <h1>🛍️ تاجر الإمارات</h1>
         <p>متجر مخزون الإمارات - منتجات متنوعة بأسعار تنافسية</p>
@@ -223,22 +155,6 @@
             <p>نوفر لك أفضل المنتجات بأسعار تنافسية مع توصيل سريع وآمن في جميع أنحاء الإمارات</p>
             <p>تسوق الآن واستمتع بتجربة تسوق سهلة وآمنة</p>
         </div>
-
-        <div class="facebook-login">
-            <h3>تسجيل الدخول عبر فيسبوك</h3>
-            <p style="margin-bottom: 20px; color: #666;">استخدم حسابك على فيسبوك للدخول والتمتع بمزايا إضافية</p>
-            <button class="fb-button" onclick="checkLoginState()">
-                تسجيل الدخول عبر فيسبوك
-            </button>
-
-            <div id="fb-status" class="status-info">
-                <p><strong>حالة الاتصال:</strong> <span id="connection-status"></span></p>
-                <p id="user-info" style="display:none;"><strong>معرّف المستخدم:</strong> <span id="user-id"></span></p>
-                <p id="token-info" style="display:none;"><strong>الرمز متاح:</strong> ✓</p>
-            </div>
-        </div>
-
-        <hr class="divider">
 
         <div class="content">
             <h3>لماذا اختيار تاجر الإمارات؟</h3>
@@ -265,18 +181,6 @@
                 <li><a href="returns.html">سياسة الاسترجاع</a></li>
             </ul>
         </div>
-
-        <!-- Facebook Like Plugin -->
-        <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-            <h3 style="color: #1877f2; margin-bottom: 20px;">تابعنا على فيسبوك</h3>
-            <div class="fb-like" 
-                data-href="https://www.facebook.com/matjar.makhzoon" 
-                data-width="100" 
-                data-layout="box_count" 
-                data-action="like" 
-                data-size="large" 
-                data-share="true"></div>
-        </div>
     </div>
 
     <footer>
@@ -286,105 +190,5 @@
             <a href="terms.html">الشروط والأحكام</a>
         </p>
     </footer>
-
-    <script>
-        // Facebook SDK Initialization Callback
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId      : '949203670580702',
-                cookie     : true,
-                xfbml      : true,
-                version    : 'v18.0'
-            });
-
-            FB.AppEvents.logPageView();
-
-            // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
-            checkLoginState();
-        };
-
-        // دالة التحقق من حالة تسجيل الدخول
-        function checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
-        }
-
-        // دالة معالجة تغيير الحالة
-        function statusChangeCallback(response) {
-            const statusDiv = document.getElementById('fb-status');
-            const connectionStatus = document.getElementById('connection-status');
-            const userIdSpan = document.getElementById('user-id');
-            const userInfo = document.getElementById('user-info');
-            const tokenInfo = document.getElementById('token-info');
-
-            if (response.status === 'connected') {
-                // المستخدم متصل
-                connectionStatus.textContent = 'متصل ✓';
-                connectionStatus.style.color = '#31a24c';
-
-                // عرض معرف المستخدم
-                if (response.authResponse && response.authResponse.userID) {
-                    userIdSpan.textContent = response.authResponse.userID;
-                    userInfo.style.display = 'block';
-                    tokenInfo.style.display = 'block';
-                }
-
-                statusDiv.classList.add('active');
-                console.log('مرحبا بك! أنت متصل بـ:', response.authResponse);
-
-            } else if (response.status === 'unknown') {
-                // المستخدم لم يسجل دخول
-                connectionStatus.textContent = 'غير متصل - اضغط الزر للدخول';
-                connectionStatus.style.color = '#f02849';
-                userInfo.style.display = 'none';
-                tokenInfo.style.display = 'none';
-                statusDiv.classList.remove('active');
-                console.log('يرجى تسجيل الدخول');
-
-            } else {
-                // حدث خطأ ما
-                connectionStatus.textContent = 'خطأ في الاتصال';
-                connectionStatus.style.color = '#f02849';
-                userInfo.style.display = 'none';
-                tokenInfo.style.display = 'none';
-                statusDiv.classList.remove('active');
-            }
-        }
-
-        // دالة تسجيل الدخول
-        function fbLogin() {
-            FB.login(function(response) {
-                statusChangeCallback(response);
-            }, {scope: 'public_profile,email'});
-        }
-
-        // دالة تسجيل الخروج
-        function fbLogout() {
-            FB.logout(function(response) {
-                statusChangeCallback(response);
-            });
-        }
-
-        // تحديث حالة الزر عند الضغط عليه
-        document.addEventListener('DOMContentLoaded', function() {
-            const button = document.querySelector('.fb-button');
-            if (button) {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    FB.getLoginStatus(function(response) {
-                        if (response.status === 'connected') {
-                            // إذا كان متصلاً بالفعل، أخرجه
-                            fbLogout();
-                        } else {
-                            // وإلا دخله
-                            fbLogin();
-                        }
-                    });
-                });
-            }
-        });
-    </script>
 </body>
 </html>
