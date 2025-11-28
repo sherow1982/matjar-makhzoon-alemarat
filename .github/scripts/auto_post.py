@@ -13,6 +13,7 @@ from datetime import datetime
 import requests
 from io import BytesIO
 import xml.etree.ElementTree as ET
+from urllib.parse import quote
 
 # ========== تحميل المنتجات ==========
 def load_products():
@@ -82,15 +83,47 @@ def extract_id_from_url(url):
     except:
         return None
 
+# ========== تحويل الرابط لـ URL encoding ==========
+def encode_arabic_url(url):
+    """تحويل الأحرف العربية في الرابط لـ URL encoding
+    مثال: /products/عرض-437.html -> /products/%D8%B9%D8%B1%D8%B6-437.html
+    """
+    try:
+        # فصل الرابط إلى base + path
+        if '/products/' in url:
+            base = url.split('/products/')[0]
+            filename = url.split('/products/')[1]
+            
+            # تحويل اسم الملف فقط (الجزء العربي)
+            # quote() بتحول الأحرف العربية لـ %XX%XX
+            # safe='-.html' عشان ما يحولش الشرطات والامتداد
+            encoded_filename = quote(filename, safe='-.')
+            
+            # بناء الرابط الكامل
+            encoded_url = f"{base}/products/{encoded_filename}"
+            
+            print(f"🔗 الرابط الأصلي: {url}")
+            print(f"🔗 الرابط المحول: {encoded_url}")
+            
+            return encoded_url
+        
+        return url
+        
+    except Exception as e:
+        print(f"⚠️ فشل تحويل الرابط: {e}")
+        return url
+
 # ========== بناء خريطة ID -> URL ==========
 def build_id_to_url_map(urls):
-    """بناء خريطة من product ID إلى URL الكامل"""
+    """بناء خريطة من product ID إلى URL الكامل (محول)"""
     id_to_url = {}
     
     for url in urls:
         product_id = extract_id_from_url(url)
         if product_id:
-            id_to_url[product_id] = url
+            # تحويل الرابط لـ URL encoding
+            encoded_url = encode_arabic_url(url)
+            id_to_url[product_id] = encoded_url
     
     print(f"✅ تم بناء خريطة لـ {len(id_to_url)} منتج")
     return id_to_url
@@ -118,7 +151,7 @@ def save_tracking(tracking):
         print(f"⚠️ فشل حفظ التتبع: {e}")
 
 def select_next_product(products, tracking, id_to_url):
-    """اختيار المنتج التالي حسب ننظام التتبع - ما ينشر منتج مرتين في نفس الدورة"""
+    """اختيار المنتج التالي حسب نظام التتبع - ما ينشر منتج مرتين في نفس الدورة"""
     total = len(products)
     posted = set(tracking.get('posted', []))  # استخدام set للبحث السريع
     cycle = tracking.get('cycle', 1)
@@ -181,16 +214,16 @@ def download_image(image_url):
 
 # ========== إنشاء محتوى المنشور ==========
 def create_post_content(product, product_url):
-    """إنشاء محتوى المنشور مع الصورة - استخدام الرابط من sitemap.xml مباشرة"""
+    """إنشاء محتوى المنشور مع الصورة - استخدام الرابط المحول من sitemap.xml"""
     title = product.get('title', 'منتج جديد')
     price = product.get('price', 'N/A')
     image_url = product.get('image_link', '')
     
-    # الرابط مباشرة من sitemap.xml
-    print(f"🔗 الرابط من sitemap: {product_url}")
+    # الرابط المحول (URL encoded) مباشرة من sitemap.xml
+    print(f"🔗 الرابط المحول: {product_url}")
     
     # محتوى المنشور
-    emojis = ['✨', '🔥', '🛍', '🎁', '⭐', '💥', '👑']
+    emojis = ['✨', '🔥', '🛒', '🎁', '⭐', '💥', '👑']
     emoji = random.choice(emojis)
     
     post_text = f"""{emoji} {title}
@@ -284,7 +317,7 @@ def main():
         print("❌ فشل سحب الروابط من sitemap.xml")
         sys.exit(1)
     
-    # 3. بناء خريطة ID -> URL
+    # 3. بناء خريطة ID -> URL (محول)
     id_to_url = build_id_to_url_map(product_urls)
     if not id_to_url:
         print("❌ فشل بناء خريطة الروابط")
@@ -301,7 +334,7 @@ def main():
     
     print(f"\n📦 المنتج المختار: {product.get('title', 'N/A')}")
     print(f"🆔 ID: {product.get('id')}")
-    print(f"🔗 الرابط: {product_url}")
+    print(f"🔗 الرابط المحول: {product_url}")
     print(f"🔢 الدورة: {tracking['cycle']}")
     print(f"✅ تم نشر: {len(tracking['posted'])}/{len(products)} منتج\n")
     
